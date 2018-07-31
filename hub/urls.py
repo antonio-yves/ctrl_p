@@ -22,4 +22,8 @@ urlpatterns = [
 
     # Core: auth
     path('', include('app.core.urls'), name='core'),
+
+    # Ctrl_p
+    path('', include('app.ctrl_p.urls'), name='ctrl_p')
+
 ]

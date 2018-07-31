@@ -43,6 +43,9 @@ INSTALLED_APPS = [
 
     # hub
     'app.core',
+
+    # ctrl_p
+    'app.ctrl_p',
 ]
 
 MIDDLEWARE = [
