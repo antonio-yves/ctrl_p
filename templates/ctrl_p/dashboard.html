@@ -59,6 +59,9 @@
                       <input type="file" id="exampleInputFile">
                       <p class="help-block">Envie seu arquivo em PDF</p>
                     </div>
+                      {% csrf_token %}
+
+                        {{ form }}
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -137,6 +140,11 @@
             </tr>
           </tbody>
         </table>
+        <form>
+            {% csrf_token %}
+
+            {{ form }}
+        </form>
         </div>
         
       </div>

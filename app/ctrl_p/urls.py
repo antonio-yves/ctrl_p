@@ -6,13 +6,15 @@ from django.urls import include, path
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 
-from . import views as core
+from . import views as ctrl_p
 
 app_name = 'ctrl_p'
 
 urlpatterns = [
 
     # Impressao
-    path('solicitacao/', auth_views.LoginView.as_view(template_name='ctrl_p/dashboard.html'), name='solicitacao'),
+    path('solicitacao/', ctrl_p.RequirimentView.as_view(template_name='ctrl_p/dashboard.html'), name='solicitacao'),
+    # Upload File
+    path('upload-file/', ctrl_p.UploadFile.as_view(template_name='ctrl_p/upload_file.html'), name='upload-file'),
 
 ]
