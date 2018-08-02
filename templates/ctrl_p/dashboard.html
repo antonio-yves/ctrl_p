@@ -15,7 +15,7 @@
 
   <!-- Main content -->
   <section class="content">
-    <div class="callout callout-danger">
+    <div class="callout callout-warning">
       <h4>Atenção</h4>
       <p>Nesta sessão, você realiza a solicitação de impressão do seu arquivo. Você é responsável pelo que está imprimindo, documentos que não tiverem relação com suas atividades dentro da instituição não serão impressos.</p>
     </div>
@@ -27,50 +27,7 @@
       <div class="box-body">
         <!-- Inicio da Aplicação -->
         <div class="btn-solicitar">
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Solicitar Impressão</button>
-        </div>
-
-        <div class="model">
-          <!-- Modal -->
-          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Solicitação de Impressão</h4>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Nome do Arquivo</label>
-                      <input type="name" class="form-control" id="exampleInputEmail1" placeholder="Prova de Informática">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputPassword1">Número de Cópias</label>
-                      <input type="text" class="form-control" id="exampleInputPassword1" placeholder="1">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputPassword1">Páginas</label>
-                      <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Ex: 1 - 4">
-                      <p class="help-block">Informe quais páginas devem ser impressas</p>
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputFile">Upload do Arquivo</label>
-                      <input type="file" id="exampleInputFile">
-                      <p class="help-block">Envie seu arquivo em PDF</p>
-                    </div>
-                      {% csrf_token %}
-
-                        {{ form }}
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Sair</button>
-                  <button type="button" class="btn btn-success">Solicitar</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <a href="{% url 'ctrl_p:upload-file' %}"><button type="button" class="btn btn-success">Solicitar Impressão</button></a>
         </div>
 
         <div class="impressoes-user">

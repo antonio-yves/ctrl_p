@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 from .models import File
+from .forms import FormFile
 
 class RequirimentView(TemplateView):
 
@@ -11,4 +13,6 @@ class RequirimentView(TemplateView):
 
 class UploadFile(CreateView):
     model = File
+    template_name = 'ctrl_p/upload_file.html'
+    success_url = reverse_lazy('ctrl_p:solicitacao')
     fields = ['user', 'name', 'copy', 'file']

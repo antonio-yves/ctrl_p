@@ -25,5 +25,4 @@ urlpatterns = [
 
     # Ctrl_p
     path('', include('app.ctrl_p.urls'), name='ctrl_p')
-
 ]
