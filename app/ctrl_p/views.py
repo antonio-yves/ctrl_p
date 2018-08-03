@@ -14,5 +14,8 @@ class RequirimentView(TemplateView):
 class UploadFile(CreateView):
     model = File
     template_name = 'ctrl_p/upload_file.html'
-    success_url = reverse_lazy('ctrl_p:solicitacao')
+    success_url = reverse_lazy('ctrl_p:success')
     fields = ['user', 'name', 'copy', 'file']
+
+class SuccessView(TemplateView):
+	template_name = 'ctrl_p/success.html'

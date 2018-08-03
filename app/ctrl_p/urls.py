@@ -16,5 +16,7 @@ urlpatterns = [
     path('solicitacao/', ctrl_p.RequirimentView.as_view(template_name='ctrl_p/dashboard.html'), name='solicitacao'),
     # Upload File
     path('upload-file/', ctrl_p.UploadFile.as_view(template_name='ctrl_p/upload_file.html'), name='upload-file'),
+    # Success
+    path('success/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/success.html'), name='success'),
 
 ]

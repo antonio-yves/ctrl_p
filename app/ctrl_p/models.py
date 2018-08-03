@@ -6,6 +6,7 @@ class File(CreateUpdateModel):
     name = models.CharField(max_length=20, verbose_name='Nome')
     copy = models.IntegerField(verbose_name='Número de Cópias')
     file = models.FileField(upload_to='documents/', verbose_name='Arquivo')
+    status = models.IntegerField(verbose_name='Status de Impressão', default=1)
     uploaded = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
