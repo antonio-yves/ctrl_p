@@ -132,11 +132,20 @@
           </a>
         </li>
         {% endif %}
+        {% if request.user.is_staff %}
+        <li>
+          <a href="{% url 'ctrl_p:admin-printer' %}">
+            <i class="fa fa-print"></i>
+            <span>Requisição de Impressão</span>
+          </a>
+        </li>
+        {% else %}
         <li>
           <a href="{% url 'ctrl_p:solicitacao' %}">
             <i class="fa fa-print"></i> <span>Requisição de Impressão</span>
           </a>
         </li>
+        {% endif %}
       </ul>
     </section>
     <!-- /.sidebar -->

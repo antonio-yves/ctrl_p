@@ -18,5 +18,7 @@ urlpatterns = [
     path('upload-file/', ctrl_p.UploadFile.as_view(template_name='ctrl_p/upload_file.html'), name='upload-file'),
     # Success
     path('success/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/success.html'), name='success'),
+    # Dashboard Admin
+    path('admin-printer/', ctrl_p.AdminView.as_view(template_name='ctrl_p/admin.html'), name='admin-printer'),
 
 ]

@@ -19,3 +19,6 @@ class UploadFile(CreateView):
 
 class SuccessView(TemplateView):
 	template_name = 'ctrl_p/success.html'
+
+class AdminView(TemplateView):
+	template_name = 'ctrl_p/admin.html'

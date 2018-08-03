@@ -14,100 +14,75 @@
     </section>
     <!-- Main content -->
     <section class="content">
-            <div class="callout callout-danger">
-            <h4>Atenção</h4>
-            <p>Nesta sessão, você realiza a solicitação de impressão do seu arquivo. Você é responsável pelo que está imprimindo, documentos que não tiverem relação com suas atividades dentro da instituição não serão impressos.</p>
-            </div>
             <!-- Default box -->
             <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Solicitações em Andamento</h3>
+                <h3 class="box-title"></h3>
             </div>
             <div class="box-body">
-                <!-- Inicio da Aplicação -->
-        
-                <div class="model">
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                </div>
-                </div>
-        
-                <div class="impressoes-user">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                    <a class="nav-link active" href="#andamento" role="tab" data-toggle="tab">Em andamento</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#finalizadas" role="tab" data-toggle="tab">Finalizadas</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="andamento">
-                        <ul class="list-group">
-                            {% if partidas|length > 0 %}
-                            {% for x in partidas %}
-                            <li class="list-group-item"><a href="/partida/">Partida Nº</a></li>
-                        </ul>
-                        {%endfor%}
-                        {% else %}
-                        <div class="not-found">
-                        <h3>Nenhum arquivo aguardando impressão</h3>
-                        </div>
-                        {% endif %}
+            <!-- Inicio da Aplicação -->
+            <div class="search-user">
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Pesquisar Usuário">
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="finalizadas">
-                        <ul class="list-group">
-                            {% if partidas_fina|length > 0 %}
-                            {% for x in partidas_fina %}
-                            <li class="list-group-item">Partida Nº</li>
-                        </ul>
-                        {%endfor%}
-                        {% else %}
-                        <div class="not-found">
-                        <h3>Nenhuma partida finalizada</h3>
-                        </div>
-                        {% endif %}
-                    </div>
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#printer" role="tab" data-toggle="tab">Arquivos para impressão</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#report" role="tab" data-toggle="tab">Relatórios</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="printer">
+                    <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID da Solicitação</th>
+                        <th scope="col">Nome do Documento</th>
+                        <th scope="col">Data da Solicitação</th>
+                        <th scope="col">Solicitador</th>
+                        <th scope="col">Opções</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Prova de Fundamentos</td>
+                            <td>29/06/2018</td>
+                            <td>Gustavo Soares</td>
+                            <td><i class="fa fa-print" aria-hidden="true"></i><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Prova de Fundamentos</td>
+                            <td>29/06/2018</td>
+                            <td>Gustavo Soares</td>
+                            <td><i class="fa fa-print" aria-hidden="true"></i><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                        </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome do Documento</th>
-                    <th scope="col">Data da Solicitação</th>
-                    <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-
-                    
-                    {% for x (variavel de armazenamento: )%}
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Prova de Fundamentos</td>
-                    <td>29/06/2018</td>
-                    <td class="text-danger">Aguardando Impressão</td>
-                    </tr>
+                <div role="tabpanel" class="tab-pane" id="report">
+                    <ul class="list-group">
+                    {% if partidas_fina|length > 0 %}
+                        {% for x in partidas_fina %}
+                    <li class="list-group-item">Partida Nº</li>
+                    </ul>
                     {%endfor%}
-
-
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Apostila de Algoritmos</td>
-                    <td>22/06/2018</td>
-                    <td class="text-warning">Aguardando Retirada</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Prova de Estrutura de Dados</td>
-                    <td>13/06/2018</td>
-                    <td class="text-success">Concluído</td>
-                    </tr>
-                </tbody>
-                </table>
+                    {% else %}
+                    <div class="not-found">
+                    <h3>Nenhuma partida finalizada</h3>
+                    </div>
+                    {% endif %}
                 </div>
-                
+            </div>
+
             </div>
             <!-- /.box-body -->
             <!-- /.box-footer-->
