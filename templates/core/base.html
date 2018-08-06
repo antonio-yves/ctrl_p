@@ -141,7 +141,7 @@
         </li>
         {% else %}
         <li>
-          <a href="{% url 'ctrl_p:solicitacao' %}">
+          <a href="{% url 'ctrl_p:solicitacao' request.user.id %}">
             <i class="fa fa-print"></i> <span>Requisição de Impressão</span>
           </a>
         </li>

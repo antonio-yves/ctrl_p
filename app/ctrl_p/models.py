@@ -1,6 +1,7 @@
 from django.db import models
 from app.core.models import CreateUpdateModel, UUIDUser
 
+# Model referente aos arquivos enviados para impressão
 class File(CreateUpdateModel):
     user = models.ForeignKey(UUIDUser, on_delete=models.CASCADE, related_name='users', verbose_name='Usuário')
     name = models.CharField(max_length=20, verbose_name='Nome')
@@ -15,8 +16,3 @@ class File(CreateUpdateModel):
     class Meta:
         verbose_name = 'Arquivo'
         verbose_name_plural = 'Arquivos'
-
-
-
-
-

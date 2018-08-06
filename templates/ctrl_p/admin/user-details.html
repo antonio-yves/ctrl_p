@@ -1,35 +1,37 @@
-{% extends '../core/base.html' %}
-
+{% extends '../../core/base.html' %}
+{% load staticfiles %}
 {% block content %}
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>
-      Solicitação de Impressão
-      <small>Sistema de impressão do IFPB Campus Cajazeiras</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Requisição de Impressão</li>
-    </ol>
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="callout callout-warning">
-      <h4>Atenção</h4>
-      <p>Nesta sessão, você realiza a solicitação de impressão do seu arquivo. Você é responsável pelo que está imprimindo, documentos que não tiverem relação com suas atividades dentro da instituição não serão impressos.</p>
-    </div>
-    <!-- Default box -->
-    <div class="box">
-      <div class="box-header with-border">
-        <h3 class="box-title">Minhas Solicitações</h3>
-      </div>
-      <div class="box-body">
-        <!-- Inicio da Aplicação -->
-        <div class="btn-solicitar">
-          <a href="{% url 'ctrl_p:upload-file' %}"><button type="button" class="btn btn-success">Solicitar Impressão</button></a>
-        </div>
-
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Solicitação de Impressão
+            <small>Sistema de impressão do IFPB Campus Cajazeiras</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li>Requisição de Impressão</li>
+            <li class="active">Detalhes do Usuário</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+            <!-- Default box -->
+            <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Detalhes do Usuário</h3>
+            </div>
+            <div class="user-datails">
+                <div class="media">
+                  <div class="media-left">
+                      <img class="media-object user-image img-circle" src="{% static 'dist/img/user2-160x160.jpg' %}" alt="Profile User">
+                  </div>
+                  <div class="media-body">
+                    <h2 class="media-heading">{{object.first_name}} {{object.last_name}}</h2>
+                    <h4>Matrícula: {{ object.registration }}</h4>
+                  </div>
+                </div>
+            </div>
+            <div>
             <div class="impressoes-user">
                 <div class="tabs">
                     <ul class="nav nav-tabs">
@@ -133,13 +135,14 @@
                     </div>
                 </div>
             </div>
-        
-      </div>
-      <!-- /.box-body -->
-      <!-- /.box-footer-->
-    </div>
-    <!-- /.box -->
+            </div>
 
-  </section>
-  <!-- /.content -->
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box-footer-->
+            </div>
+            <!-- /.box -->
+        
+        </section>
+        <!-- /.content -->
 {% endblock %}

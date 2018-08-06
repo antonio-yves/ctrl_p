@@ -13,12 +13,21 @@ app_name = 'ctrl_p'
 urlpatterns = [
 
     # Impressao
-    path('solicitacao/', ctrl_p.RequirimentView.as_view(template_name='ctrl_p/dashboard.html'), name='solicitacao'),
+    path('solicitacao/<pk>', ctrl_p.RequirimentView.as_view(template_name='ctrl_p/dashboard.html'), name='solicitacao'),
+
     # Upload File
-    path('upload-file/', ctrl_p.UploadFile.as_view(template_name='ctrl_p/upload_file.html'), name='upload-file'),
+    path('upload-file/', ctrl_p.UploadFile.as_view(template_name='ctrl_p/file/upload_file.html'), name='upload-file'),
+
     # Success
-    path('success/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/success.html'), name='success'),
+    path('success/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/file/success.html'), name='success'),
+
     # Dashboard Admin
-    path('admin-printer/', ctrl_p.AdminView.as_view(template_name='ctrl_p/admin.html'), name='admin-printer'),
+    path('admin-printer/', ctrl_p.AdminView.as_view(template_name='ctrl_p/admin/index.html'), name='admin-printer'),
+
+    # Search Results
+    path('results/', ctrl_p.ResultsView.as_view(template_name='ctrl_p/admin/results.html'), name='results'),
+
+    # User Details
+    path('user-details/<pk>', ctrl_p.UserDetailView.as_view(template_name='ctrl_p/admin/user-details.html'), name='user-details'),
 
 ]

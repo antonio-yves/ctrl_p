@@ -1,4 +1,4 @@
-{% extends '../core/base.html' %}
+{% extends '../../core/base.html' %}
 
 {% block content %}
     <!-- Content Header (Page header) -->
@@ -17,14 +17,14 @@
             <!-- Default box -->
             <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title"></h3>
+                <h3 class="box-title">Painel Administrativo</h3>
             </div>
             <div class="box-body">
             <!-- Inicio da Aplicação -->
             <div class="search-user">
-                <form class="navbar-form navbar-left" role="search">
+                <form class="navbar-form navbar-left" role="search" method="get" action="/results">
                     <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Pesquisar Usuário">
+                    <input type="text" class="form-control" placeholder="Pesquisar Usuário" name="q">
                     </div>
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                 </form>
@@ -34,7 +34,7 @@
                     <a class="nav-link active" href="#printer" role="tab" data-toggle="tab">Arquivos para impressão</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#report" role="tab" data-toggle="tab">Relatórios</a>
+                    <a class="nav-link" href="#report" role="tab" data-toggle="tab">Gerar Relatórios</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -42,7 +42,7 @@
                     <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col">ID da Solicitação</th>
+                        <th scope="col">#</th>
                         <th scope="col">Nome do Documento</th>
                         <th scope="col">Data da Solicitação</th>
                         <th scope="col">Solicitador</th>
@@ -50,20 +50,15 @@
                       </tr>
                     </thead>
                     <tbody>
+                        {% for file in object_list %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Prova de Fundamentos</td>
-                            <td>29/06/2018</td>
-                            <td>Gustavo Soares</td>
-                            <td><i class="fa fa-print" aria-hidden="true"></i><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ file.name }}</td>
+                            <td>{{ file.uploaded }}</td>
+                            <td>{{ file.user }}</td>
+                            <td><i class="fa fa-print" aria-hidden="true" style="margin-right: 10px;" title="Imprimir"></i><i class="fa fa-pencil-square-o" aria-hidden="true" title="Editar"></i></td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Prova de Fundamentos</td>
-                            <td>29/06/2018</td>
-                            <td>Gustavo Soares</td>
-                            <td><i class="fa fa-print" aria-hidden="true"></i><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                   </table>
                 </div>
