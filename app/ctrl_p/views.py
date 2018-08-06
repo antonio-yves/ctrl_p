@@ -63,6 +63,9 @@ class ResultsView(ListView):
 # Profile User
 #------------------------------- 
 class UserDetailView(DetailView):
+	'''
+	Classe responsável por mostrar ao usuário administrador os dados de um usuário
+	'''
 	model = UUIDUser # Criando Model da classe com base no model UUIDUser do app core
 	template_name = 'ctrl_p/user/user-details.html' # Informando a classe o template que será utilizado para renderizar os dados
 
@@ -75,5 +78,8 @@ class UserDetailView(DetailView):
 # Normal User View
 #---------------------------------
 class RequirimentView(UserDetailView): # Criamos a classe herdando de UserDetailView para receber todos os seus atributos
+	'''
+	Classe responsável por mostrar ao usuário seus arquivos
+	'''
 	template_name = 'ctrl_p/dashboard.html' # Sobrescrevemos o template da classe mãe
 
