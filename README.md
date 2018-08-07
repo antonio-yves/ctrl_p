@@ -1,10 +1,10 @@
-# Garag3m: hub
+# Garag3m: ctrl_p
 
-Projeto base e integrador dos demais projetos desenvolvidos pela Garag3m.
+Projeto de requerimento de impressão desenvolvido pela Garag3m.
 
 ## Apps
 
-O projeto é composto pela aplicação *core* composta basicamente pelas classes *CreateUpdateModel* e *UUIDUser*.  
+O projeto é composto pela aplicação *core* e *ctrl_p* que são compostas basicamente pelas classes *CreateUpdateModel*, *UUIDUser* e *File*.   
 
 ### CreateUpdateModel
 
@@ -52,4 +52,20 @@ Você pode ver no arquivo settings.py a definição da classe UUIDUser como clas
 
 ```python
 AUTH_USER_MODEL = 'core.UUIDUser'
+```
+
+### File
+Classe composta basicamente pelos atributos de usuário (user), nome do arquivo (name), quantidade de cópiad (copy), o arquivo para ser impresso (file) e a data de upload (uploaded).
+ ```python
+class File(CreateUpdateModel):
+    user = models.ForeignKey(UUIDUser, on_delete=models.CASCADE, related_name='users', verbose_name='Usuário')
+    name = models.CharField(max_length=20, verbose_name='Nome')
+    copy = models.IntegerField(verbose_name='Número de Cópias')
+    file = models.FileField(upload_to='documents/', verbose_name='Arquivo')
+    uploaded = models.DateTimeField(auto_now_add=True)
+     def __str__(self):
+        return self.name
+     class Meta:
+        verbose_name = 'Arquivo'
+        verbose_name_plural = 'Arquivos'
 ```
