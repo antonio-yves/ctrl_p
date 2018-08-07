@@ -62,7 +62,7 @@
                               <th scope="row">{{ forloop.counter }}</th>
                               <td>{{ file.name }}</td>
                               <td>{{ file.uploaded|date:"d/m/Y" }} às {{ file.uploaded|time }}</td>
-                              <td class="text-danger">Aguardando Impressão</td>
+                              <td><span class="label label-danger">Aguardando Impressão</span></td>
                             </tr>
                             {%endfor%}
                           </tbody>
@@ -91,7 +91,7 @@
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ file.name }}</td>
                           <td>{{ file.uploaded|date:"d/m/Y" }} às {{ file.uploaded|time }}</td>
-                          <td class="text-warning">Aguardando Retirada</td>
+                          <td><span class="label label-warning">Aguardando Retirada</span></td>
                         </tr>
                         {%endfor%}
                       </tbody>
@@ -120,7 +120,7 @@
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ file.name }}</td>
                           <td>{{ file.uploaded|date:"d/m/Y" }} às {{ file.uploaded|time }}</td>
-                          <td class="text-success">Concluído</td>
+                          <td><span class="label label-success">Concluído</span></td>
                         </tr>
                         {%endfor%}
                       </tbody>
