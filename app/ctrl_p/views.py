@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
 
@@ -83,3 +83,21 @@ class RequirimentView(UserDetailView): # Criamos a classe herdando de UserDetail
 	'''
 	template_name = 'ctrl_p/dashboard.html' # Sobrescrevemos o template da classe mãe
 
+# Update File File
+#--------------------------
+class UpdateFileView(UpdateView):
+	'''
+	Classe responsável por realizar atualização no model file
+	'''
+	model = File # Criando Model da classe com base no model File
+	template_name = 'ctrl_p/file/file-update.html' # Informando a classe o template que será utilizado para renderizar os dados
+	success_url = reverse_lazy('ctrl_p:success-update') # Tela que o usuário será enviado se sua requisição for concluída com êxito
+	fields = ['user', 'name', 'copy', 'file', 'status'] # Formulário que será utilizado no template para realizar o upload do arquivo
+
+# Success Update View
+#-----------------------------
+class SuccessUpdateView(TemplateView):
+	'''
+	Classe com o template success, que será renderizado quando o arquivo for atualizado com êxito
+	'''
+	template_name = 'ctrl_p/admin/success.html' # Definindo o template de renderização da classe

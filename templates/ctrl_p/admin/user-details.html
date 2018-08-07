@@ -8,8 +8,8 @@
             <small>Sistema de impressão do IFPB Campus Cajazeiras</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li>Requisição de Impressão</li>
+            <li><a href="{% url 'core:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="{% url 'ctrl_p:admin-printer' %}">Requisição de Impressão</a></li>
             <li class="active">Detalhes do Usuário</li>
         </ol>
     </section>
@@ -140,7 +140,6 @@
             </div>
             <!-- /.box-body -->
             <!-- /.box-footer-->
-            </div>
             <!-- /.box -->
         
         </section>

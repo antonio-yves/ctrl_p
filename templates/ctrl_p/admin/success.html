@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{% url 'core:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{% url 'ctrl_p:solicitacao' request.user.id %}">Requisição de Impressão</a></li>
+      <li><a href="{% url 'ctrl_p:admin-printer' %}">Requisição de Impressão</a></li>
       <li><a href="{% url 'ctrl_p:upload-file' %}">Upload do Arquivo</a></li>
       <li class="active">Sucesso</li>
     </ol>
@@ -27,7 +27,7 @@
       <div class="box-body">
         <div class="callout callout-success">
         <h4>Sucesso</h4>
-        <p>O arquivo foi enviado para impressão com sucesso! Logo você receberá um e-mail informando o status do mesmo. <a href="{% url 'ctrl_p:solicitacao' request.user.id %}">Clique aqui para voltar para a página inicial.</a></p>
+        <p>O arquivo foi atualizado com sucesso! Logo o usuário solicitador receberá um e-mail informando o status do mesmo. <a href="{% url 'ctrl_p:admin-printer' %}">Clique aqui para voltar para a página inicial.</a></p>
       </div>
       </div>
       <!-- /.box-body -->

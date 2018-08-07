@@ -30,109 +30,109 @@
           <a href="{% url 'ctrl_p:upload-file' %}"><button type="button" class="btn btn-success">Solicitar Impressão</button></a>
         </div>
 
-            <div class="impressoes-user">
-                <div class="tabs">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                          <a class="nav-link active" href="#andamento" role="tab" data-toggle="tab">Aguardando Impressão</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#retirada" role="tab" data-toggle="tab">Aguardando Retirada</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#finalizadas" role="tab" data-toggle="tab">Concluídos</a>
-                        </li>
-                    </ul>
+        <div class="impressoes-user">
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#andamento" role="tab" data-toggle="tab">Aguardando Impressão</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#retirada" role="tab" data-toggle="tab">Aguardando Retirada</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#finalizadas" role="tab" data-toggle="tab">Concluídos</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="andamento">
+                        {% if files_print|length > 0 %}
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Nome do Documento</th>
+                              <th scope="col">Data da Solicitação</th>
+                              <th scope="col">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for file in files_print %}
+                            <tr>
+                              <th scope="row">{{ forloop.counter }}</th>
+                              <td>{{ file.name }}</td>
+                              <td>{{ file.uploaded|date:"d/m/Y" }}</td>
+                              <td class="text-danger">Aguardando Impressão</td>
+                            </tr>
+                            {%endfor%}
+                          </tbody>
+                        </table>                            
+                        {% else %}
+                    <div class="not-found">
+                        <h3>Nenhum arquivo aguardando impressão</h3>
+                    </div>
+                    {% endif %}
                 </div>
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="andamento">
-                            {% if files_print|length > 0 %}
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">Nome do Documento</th>
-                                  <th scope="col">Data da Solicitação</th>
-                                  <th scope="col">Status</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {% for file in files_print %}
-                                <tr>
-                                  <th scope="row">{{ forloop.counter }}</th>
-                                  <td>{{ file.name }}</td>
-                                  <td>{{ file.uploaded|date:"d/m/Y" }}</td>
-                                  <td class="text-danger">Aguardando Impressão</td>
-                                </tr>
-                                {%endfor%}
-                              </tbody>
-                            </table>                            
-                            {% else %}
-                        <div class="not-found">
-                            <h3>Nenhum arquivo aguardando impressão</h3>
-                        </div>
-                        {% endif %}
-                    </div>
 
-                    <div role="tabpanel" class="tab-pane" id="retirada">
-                        {% if files_waiting|length > 0 %}
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Nome do Documento</th>
-                              <th scope="col">Data da Solicitação</th>
-                              <th scope="col">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for file in files_waiting %}
-                            <tr>
-                              <th scope="row">{{ forloop.counter }}</th>
-                              <td>{{ file.name }}</td>
-                              <td>{{ file.uploaded|date:"d/m/Y" }}</td>
-                              <td class="text-warning">Aguardando Retirada</td>
-                            </tr>
-                            {%endfor%}
-                          </tbody>
-                        </table>                            
-                        {% else %}
-                        <div class="not-found">
-                            <h3>Nenhum arquivo aguardando retirada</h3>
-                        </div>
-                        {% endif %}
+                <div role="tabpanel" class="tab-pane" id="retirada">
+                    {% if files_waiting|length > 0 %}
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nome do Documento</th>
+                          <th scope="col">Data da Solicitação</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for file in files_waiting %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ file.name }}</td>
+                          <td>{{ file.uploaded|date:"d/m/Y" }}</td>
+                          <td class="text-warning">Aguardando Retirada</td>
+                        </tr>
+                        {%endfor%}
+                      </tbody>
+                    </table>                            
+                    {% else %}
+                    <div class="not-found">
+                        <h3>Nenhum arquivo aguardando retirada</h3>
                     </div>
+                    {% endif %}
+                </div>
 
-                    <div role="tabpanel" class="tab-pane" id="finalizadas">
-                        {% if files_complete|length > 0 %}
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Nome do Documento</th>
-                              <th scope="col">Data da Solicitação</th>
-                              <th scope="col">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for file in files_complete %}
-                            <tr>
-                              <th scope="row">{{ forloop.counter }}</th>
-                              <td>{{ file.name }}</td>
-                              <td>{{ file.uploaded|date:"d/m/Y" }}</td>
-                              <td class="text-success">Concluído</td>
-                            </tr>
-                            {%endfor%}
-                          </tbody>
-                        </table>                            
-                        {% else %}
-                        <div class="not-found">
-                            <h3>Nenhum arquivo impresso com êxito</h3>
-                        </div>
-                        {% endif %}
+                <div role="tabpanel" class="tab-pane" id="finalizadas">
+                    {% if files_complete|length > 0 %}
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nome do Documento</th>
+                          <th scope="col">Data da Solicitação</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for file in files_complete %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ file.name }}</td>
+                          <td>{{ file.uploaded|date:"d/m/Y" }}</td>
+                          <td class="text-success">Concluído</td>
+                        </tr>
+                        {%endfor%}
+                      </tbody>
+                    </table>                            
+                    {% else %}
+                    <div class="not-found">
+                        <h3>Nenhum arquivo impresso com êxito</h3>
                     </div>
+                    {% endif %}
                 </div>
             </div>
+        </div>
         
       </div>
       <!-- /.box-body -->

@@ -21,6 +21,9 @@ urlpatterns = [
     # Success
     path('success/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/file/success.html'), name='success'),
 
+    # Success Update
+    path('success-update/', ctrl_p.SuccessUpdateView.as_view(template_name='ctrl_p/admin/success.html'), name='success-update'),
+
     # Dashboard Admin
     path('admin-printer/', ctrl_p.AdminView.as_view(template_name='ctrl_p/admin/index.html'), name='admin-printer'),
 
@@ -29,5 +32,8 @@ urlpatterns = [
 
     # User Details
     path('user-details/<pk>', ctrl_p.UserDetailView.as_view(template_name='ctrl_p/admin/user-details.html'), name='user-details'),
+
+    # File Update
+    path('file-update/<pk>', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
 
 ]
