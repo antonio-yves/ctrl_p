@@ -27,6 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# EmailMessage
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'Carlos<carlosabc436@gmail.com>'
+ACCOUNT_ACTIVATION_DAYS = 3
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'carlosabc436@gmail.com'
+EMAIL_HOST_PASSWORD = "arroz123"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 
 # Application definition
 
@@ -119,7 +130,7 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 

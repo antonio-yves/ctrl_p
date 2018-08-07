@@ -59,7 +59,7 @@
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
                             <td>{{ file.name }}</td>
-                            <td>{{ file.uploaded|date:"d/m/Y" }}</td>
+                            <td>{{ file.uploaded|date:"d/m/Y" }} às {{ file.uploaded|time }}</td>
                             <td><a href="{% url 'ctrl_p:user-details' file.user.pk %}">{{ file.user }}</a></td>
                             <td class="text-danger">Aguardando Impressão</td>
                             <td><i class="fa fa-print" aria-hidden="true" style="margin-right: 10px;" title="Imprimir"></i><a href="{% url 'ctrl_p:file-update' file.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Editar"></i></a></td>
@@ -92,7 +92,7 @@
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
                             <td>{{ file.name }}</td>
-                            <td>{{ file.uploaded|date:"d/m/Y" }}</td>
+                            <td>{{ file.uploaded|date:"d/m/Y" }} às {{ file.uploaded|time }}</td>
                             <td><a href="{% url 'ctrl_p:user-details' file.user.pk %}">{{ file.user }}</a></td>
                             <td class="text-warning">Aguardando Retirada</td>
                             <td><a href="{% url 'ctrl_p:file-update' file.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Editar"></i></a></i></td>
