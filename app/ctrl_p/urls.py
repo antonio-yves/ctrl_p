@@ -31,9 +31,9 @@ urlpatterns = [
     path('results/', ctrl_p.ResultsView.as_view(template_name='ctrl_p/admin/results.html'), name='results'),
 
     # User Details
-    path('user-details/<pk>', ctrl_p.UserDetailView.as_view(template_name='ctrl_p/admin/user-details.html'), name='user-details'),
+    path('user/<pk>/details', ctrl_p.UserDetailView.as_view(template_name='ctrl_p/admin/user-details.html'), name='user-details'),
 
     # File Update
-    path('file-update/<pk>', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
+    path('file/<pk>/update/', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
 
 ]

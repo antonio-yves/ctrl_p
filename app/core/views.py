@@ -30,7 +30,7 @@ class UserCreateView(CreateView):
 
     model = models.UUIDUser
     template_name = 'core/user/form.html'
-    success_url = reverse_lazy('core:user-list')
+    success_url = reverse_lazy('core:users-list')
     fields = ['first_name', 'last_name', 'password', 'email', 'cpf', 'registration', 'picture']
 
 
