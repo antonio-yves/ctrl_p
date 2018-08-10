@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
   <!-- Ctrl_p style -->
   <link rel="stylesheet" href="{% static 'dist/my-css/impressao.css' %}">
+  
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -117,7 +118,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu sidebar-dark-primary elevation-4" data-widget="tree">
         <li class="header">ADMIN</li>
         <li>
           <a href="{% url 'core:dashboard' %}">
@@ -131,14 +132,28 @@
             <span>Usuários</span>
           </a>
         </li>
-        {% endif %}
+        {% endif %}               
         {% if request.user.is_staff %}
-        <li>
-          <a href="{% url 'ctrl_p:admin-printer' %}">
-            <i class="fa fa-print"></i>
-            <span>Requisição de Impressão</span>
-          </a>
-        </li>
+          <li class="treeview menu-close">
+            <a href="{% url 'ctrl_p:admin-printer' %}">
+              <i class="fa fa-print"></i>
+              <span>Requisição de Impressão</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            
+    
+            <ul class="treeview-menu">
+              <li><a href="{% url 'ctrl_p:admin-printer' %}"><i class="fa fa-archive"></i>Arquivos para Impressão</a></li>
+              <li><a href="{% url 'ctrl_p:admin-printer' %}"><i class="fa fa-file-text-o"></i>Arquivos aguardando <retirada></retirada></a></li>
+              <li><a href="{% url 'ctrl_p:admin-printer' %}"><i class="fa fa-file-text"></i>Gerar Relatórios</a></li>
+
+            </ul>
+            
+          </li>
+          
+        
         {% else %}
         <li>
           <a href="{% url 'ctrl_p:solicitacao' request.user.id %}">
@@ -146,7 +161,8 @@
           </a>
         </li>
         {% endif %}
-      </ul>
+
+        
     </section>
     <!-- /.sidebar -->
   </aside>
