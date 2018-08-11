@@ -8,9 +8,8 @@
       <small>Sistema de impressão do IFPB Campus Cajazeiras</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{% url 'core:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{% url 'ctrl_p:admin-printer' %}">Requisição de Impressão</a></li>
-      <li><a href="{% url 'ctrl_p:upload-file' %}">Upload do Arquivo</a></li>
+      <li><i class="fa fa-print"></i> Requisição de Impressão</li>
+      <li>Atualizar Arquivo</li>
       <li class="active">Sucesso</li>
     </ol>
   </section>
@@ -27,7 +26,7 @@
       <div class="box-body">
         <div class="callout callout-success">
         <h4>Sucesso</h4>
-        <p>O arquivo foi atualizado com sucesso! Logo o usuário solicitador receberá um e-mail informando o status do mesmo. <a href="{% url 'ctrl_p:admin-printer' %}">Clique aqui para voltar para a página inicial.</a></p>
+        <p>O status do arquivo foi atualizado com sucesso! Logo o usuário solicitador receberá um e-mail informando o novo status. <a href="{% url 'ctrl_p:admin-printer' %}">Clique aqui para voltar para a página inicial.</a></p>
       </div>
       </div>
       <!-- /.box-body -->

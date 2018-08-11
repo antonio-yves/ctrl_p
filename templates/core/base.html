@@ -135,31 +135,36 @@
         {% endif %}               
         {% if request.user.is_staff %}
           <li class="treeview menu-close">
-            <a href="{% url 'ctrl_p:admin-printer' %}">
+            <a href="">
               <i class="fa fa-print"></i>
               <span>Requisição de Impressão</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
-            
-    
             <ul class="treeview-menu">
-              <li><a href="{% url 'ctrl_p:admin-printer' %}"><i class="fa fa-archive"></i>Arquivos para Impressão</a></li>
-              <li><a href="{% url 'ctrl_p:admin-printer' %}"><i class="fa fa-file-text-o"></i>Arquivos aguardando <retirada></retirada></a></li>
-              <li><a href="{% url 'ctrl_p:admin-printer' %}"><i class="fa fa-file-text"></i>Gerar Relatórios</a></li>
-
+              <li><a href="{% url 'ctrl_p:admin-printer' request.user.pk %}"><i class="fa fa-clock-o"></i>Aguardando Impressão</a></li>
+              <li><a href="{% url 'ctrl_p:admin-waiting' request.user.pk%}"><i class="fa fa-clock-o"></i>Aguardando retirada</a></li>
+              <li><a href="{% url 'ctrl_p:admin-report' request.user.pk %}"><i class="fa fa-archive"></i>Gerar Relatórios</a></li>
+              <li><a href="{% url 'ctrl_p:results' %}"><i class="fa fa-search"></i>Pesquisar Usuário</a></li>
             </ul>
-            
           </li>
-          
-        
         {% else %}
-        <li>
-          <a href="{% url 'ctrl_p:solicitacao' request.user.id %}">
-            <i class="fa fa-print"></i> <span>Requisição de Impressão</span>
-          </a>
-        </li>
+          <li class="treeview menu-close">
+            <a href="">
+              <i class="fa fa-print"></i>
+              <span>Requisição de Impressão</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{% url 'ctrl_p:upload-file' request.user.pk %}"><i class="fa fa-upload"></i>Solicitar Impressão</a></li>
+              <li><a href="{% url 'ctrl_p:printer' request.user.id %}"><i class="fa fa-clock-o"></i>Aguardando Impressão</a></li>
+              <li><a href="{% url 'ctrl_p:waiting' request.user.id %}"><i class="fa fa-clock-o"></i>Aguardando retirada</a></li>
+              <li><a href="{% url 'ctrl_p:complete' request.user.id %}"><i class="fa fa-check-circle-o"></i>Concluídos</a></li>
+            </ul>
+          </li>
         {% endif %}
 
         

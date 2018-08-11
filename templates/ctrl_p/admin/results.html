@@ -8,9 +8,8 @@
             <small>Sistema de impressão do IFPB Campus Cajazeiras</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{% url 'core:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{% url 'ctrl_p:admin-printer' %}">Requisição de Impressão</a></li>
-            <li class="active">Resultados da Pesquisa</li>
+            <li><i class="fa fa-print"></i> Requisição de Impressão</li>
+            <li class="active">Pesquisar Usuário</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -18,15 +17,19 @@
             <!-- Default box -->
             <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Resultados da Pesquisa</h3>
+                <h3 class="box-title">Pesquisar Usuário</h3>
             </div>
-            <div class="row search-user">
-                <form class="navbar-form navbar-left" role="search" method="get" action="/results">
-                    <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Pesquisar Usuário" name="q">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="search-user">
+                        <form class="navbar-form navbar-left" role="search" method="get">
+                            <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Pesquisar Usuário" name="q">
+                            </div>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </form>
                     </div>
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                </form>
+                </div>
             </div>
             <div class="box-body">
             	{% for user in object_list %}

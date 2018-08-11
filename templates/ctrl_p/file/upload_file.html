@@ -8,9 +8,8 @@
       <small>Sistema de impressão do IFPB Campus Cajazeiras</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{% url 'core:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{% url 'ctrl_p:solicitacao' request.user.pk %}">Requisição de Impressão</a></li>
-      <li class="active">Upload do Arquivo</li>
+      <li><i class="fa fa-print"></i> Requisição de Impressão</li>
+      <li class="active">Solicitar Impressão</li>
     </ol>
   </section>
 
@@ -43,7 +42,8 @@
                 <p class="help-block">Envie seu arquivo no formato PDF</p>
             </div>
             <div class="btn-solicitar">
-              <button type="submit" class="btn btn-success">Enviar Arquivo</button>
+              <a href="{% url 'ctrl_p:printer' request.user.pk %}"><button type="button" class="btn btn-danger">Cancelar</button></a>
+              <button type="submit" class="btn btn-success">Solicitar</button>
             </div>
           </form>
       </div>
