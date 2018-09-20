@@ -6,10 +6,8 @@ from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponse
-
-
 from . import models
-
+from . import functions
 from .models import File
 from .forms import FormFile
 from app.core.models import UUIDUser
@@ -155,3 +153,8 @@ class ViewPDF(View):
 			response['Content-Disposition'] = 'inline; filename="some_file.pdf"'
 			pdf.close
 			return response
+
+# View responsável por gerar os relatórios do usuário Administrador
+#--------------------------
+class GenerateReport(View):
+	pass
