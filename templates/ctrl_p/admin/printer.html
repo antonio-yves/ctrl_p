@@ -22,7 +22,7 @@
             <div class="box-body">
             <!-- Inicio da Aplicação -->
             <div class="search-user">
-                <form class="navbar-form navbar-left" role="search" method="get" action="/results">
+                <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'ctrl_p:results' %}">
                     <div class="form-group">
                     <input type="text" class="form-control" placeholder="Pesquisar Usuário" name="q">
                     </div>

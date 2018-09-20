@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+from kombu import Exchange, Queue
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,7 +39,6 @@ EMAIL_HOST_USER = 'carlosabc436@gmail.com'
 EMAIL_HOST_PASSWORD = "arroz123"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
 
 # Application definition
 

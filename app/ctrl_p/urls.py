@@ -40,7 +40,7 @@ urlpatterns = [
     path('success-update/', ctrl_p.SuccessUpdateView.as_view(template_name='ctrl_p/admin/success.html'), name='success-update'),
 
     # Search Results
-    path('search-user/', ctrl_p.ResultsView.as_view(template_name='ctrl_p/admin/results.html'), name='results'),
+    path('user/search/', ctrl_p.ResultsView.as_view(template_name='ctrl_p/admin/results.html'), name='results'),
 
     # User Details
     path('user/<pk>/details', ctrl_p.UserDetailView.as_view(template_name='ctrl_p/user/details.html'), name='user-details'),
