@@ -11,6 +11,7 @@ from . import functions
 from .models import File
 from .forms import FormFile
 from app.core.models import UUIDUser
+from .tasks import add
 
 # View do usuário comun com os arquivos aguardando impressão
 #-----------------------------
@@ -20,6 +21,7 @@ class PrinterView(DetailView):
 
 	def get_context_data(self, **kwargs):
 		kwargs['files_print'] = models.File.objects.filter(user = self.object.id, status = 1).order_by('-uploaded')
+		add.delay()
 		return super(PrinterView, self).get_context_data(**kwargs)
 
 # View do usuário comun com os arquivos aguardando retirada
@@ -50,8 +52,8 @@ class AdminPrinterView(ListView):
 	'''
 	model = File # Criando Model da classe com base no model File
 	template_name = 'ctrl_p/admin/printer.html' # Informando a classe o template que será utilizado para renderizar os dados
-
 	def get_context_data(self, **kwargs):
+		add.delay()
 		kwargs['files_print'] = models.File.objects.filter(status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos
 		return super(AdminPrinterView, self).get_context_data(**kwargs) # Retornando os dados para o template, para serem mostrados ao usuário
 
