@@ -11,12 +11,12 @@ class File(CreateUpdateModel):
   )
   choices=STATUS
   '''
-  user = models.ForeignKey(UUIDUser, on_delete=models.CASCADE, related_name='users', verbose_name='Usuário')
-  name = models.CharField(max_length=20, verbose_name='Nome')
-  copy = models.IntegerField(verbose_name='Número de Cópias')
-  file = models.FileField(upload_to='documents/', verbose_name='Arquivo')
-  status = models.IntegerField(verbose_name='Status de Impressão', default=1)
-  uploaded = models.DateTimeField(auto_now_add=True)
+  user = models.ForeignKey(UUIDUser, on_delete = models.CASCADE, related_name = 'users', verbose_name = 'Usuário')
+  name = models.CharField(max_length = 20, verbose_name = 'Nome')
+  copy = models.IntegerField(verbose_name = 'Número de Cópias')
+  file = models.FileField(upload_to = 'documents/', verbose_name = 'Arquivo')
+  status = models.IntegerField(verbose_name = 'Status de Impressão', default = 1)
+  uploaded = models.DateTimeField(auto_now_add = True)
 
   def __str__(self):
     return self.name
@@ -35,3 +35,14 @@ class Quota(CreateUpdateModel):
   class Meta:
     verbose_name = 'Cota'
     verbose_name_plural = 'Cotas'
+
+class Report(CreateUpdateModel):
+  name = models.CharField(max_length = 25, verbose_name = 'Nome')
+  file = models.FileField(upload_to = 'reports/', verbose_name = 'Arquivo')
+
+  def __str__(self):
+    return self.name
+
+  class Meta:
+    verbose_name = 'Relatório'
+    verbose_name_plural = 'Relatórios'
