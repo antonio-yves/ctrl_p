@@ -21,7 +21,12 @@
   <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
   <!-- Ctrl_p style -->
   <link rel="stylesheet" href="{% static 'dist/my-css/impressao.css' %}">
-  
+
+  <script type="text/javascript">
+    var months = {0: "Janeiro", 1: "Fevereiro", 2: "Março", 3: "Abril", 4: "Maio", 5: "Junho", 6: "Julho", 7:"Agosto", 8:"Setembro", 9:"Outubro", 10: "Novembro", 11: "Dezembro"};
+    now = new Date
+    month = now.getMonth()
+  </script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,7 +38,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-green-light sidebar-mini">
+<body class="hold-transition skin-green-light sidebar-mini" onload="time()">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -146,7 +151,7 @@
               <li><a href="{% url 'ctrl_p:admin-printer' request.user.pk %}"><i class="fa fa-clock-o"></i>Aguardando Impressão</a></li>
               <li><a href="{% url 'ctrl_p:admin-waiting' request.user.pk%}"><i class="fa fa-clock-o"></i>Aguardando retirada</a></li>
               <li><a href="{% url 'ctrl_p:admin-report' request.user.pk %}"><i class="fa fa-bar-chart"></i>Gerar Relatórios</a></li>
-              <li><a href=""><i class="fa fa-files-o"></i>Definir Cota</a></li>
+              <li><a href="{% url 'ctrl_p:admin-quota' request.user.pk %}"><i class="fa fa-files-o"></i>Definir Cota</a></li>
               <li><a href="{% url 'ctrl_p:results' %}"><i class="fa fa-search"></i>Pesquisar Usuário</a></li>
             </ul>
           </li>
@@ -207,6 +212,8 @@
 <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'dist/js/demo.js' %}"></script>
+<!-- My JavaScript -->
+<script src="{% static 'dist/js/date.js' %}"></script>
 <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree()

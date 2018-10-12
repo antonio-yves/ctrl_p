@@ -32,6 +32,11 @@
                 </div>
             </div>
             <div class="box-body">
+                {% if object_list|length == 0 %}
+                <div class="not-found">
+                    <h4>Nenhum usuário encontrado</h4>
+                </div>
+                {% else %}
             	{% for user in object_list %}
             	<div class="media">
 				  <div class="media-left">
@@ -41,10 +46,11 @@
 				  </div>
 				  <div class="media-body">
 				    <a href="{% url 'ctrl_p:user-details' user.pk %}"><h4 class="media-heading">{{user.first_name}} {{user.last_name}}</h4></a>
-				    <p>{{user.registration}}</p>
+				    <p>Matrícula: {{user.registration}}</p>
 				  </div>
 				</div>
 				{% endfor %}
+                {% endif %}
             </div>
 
             </div>

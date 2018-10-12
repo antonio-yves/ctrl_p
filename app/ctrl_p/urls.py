@@ -30,8 +30,11 @@ urlpatterns = [
     # Files Waiting Admin
     path('admin/<pk>/waiting', ctrl_p.AdminWaitingView.as_view(template_name='ctrl_p/admin/waiting.html'), name='admin-waiting'),
 
-    # Files Report Admin
+    # Report Admin
     path('admin/<pk>/report', ctrl_p.AdminReportView.as_view(template_name='ctrl_p/admin/report.html'), name='admin-report'),
+
+    # Quota Admin
+    path('admin/<pk>/quota', ctrl_p.AdminQuotaView.as_view(), name='admin-quota'),
 
     # Success
     path('success/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/file/success.html'), name='success'),
@@ -49,6 +52,6 @@ urlpatterns = [
     path('file/<pk>/update/', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
 
     # View File
-    path('documentos/<pk>', ctrl_p.ViewPDF.as_view(), name='view-file')
+    path('documents/<pk>/view', ctrl_p.ViewPDF.as_view(), name='view-file')
 
 ]

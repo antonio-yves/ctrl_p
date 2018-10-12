@@ -11,9 +11,9 @@ from . import functions
 from .models import File
 from .forms import FormFile
 from app.core.models import UUIDUser
-from .tasks import add
+from .tasks import add, definir_cota
 
-# View do usuário comun com os arquivos aguardando impressão
+# View do usuário comun com os arquivos aguardando impressão 
 #-----------------------------
 class PrinterView(DetailView):
 	model = UUIDUser
@@ -21,7 +21,6 @@ class PrinterView(DetailView):
 
 	def get_context_data(self, **kwargs):
 		kwargs['files_print'] = models.File.objects.filter(user = self.object.id, status = 1).order_by('-uploaded')
-		add.delay()
 		return super(PrinterView, self).get_context_data(**kwargs)
 
 # View do usuário comun com os arquivos aguardando retirada
@@ -53,8 +52,8 @@ class AdminPrinterView(ListView):
 	model = File # Criando Model da classe com base no model File
 	template_name = 'ctrl_p/admin/printer.html' # Informando a classe o template que será utilizado para renderizar os dados
 	def get_context_data(self, **kwargs):
-		add.delay()
 		kwargs['files_print'] = models.File.objects.filter(status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos
+		add.delay()
 		return super(AdminPrinterView, self).get_context_data(**kwargs) # Retornando os dados para o template, para serem mostrados ao usuário
 
 # View do usuário administrador com os arquivos aguardando retirada
@@ -75,6 +74,28 @@ class AdminWaitingView(ListView):
 class AdminReportView(TemplateView):
 	template_name = 'ctrl_p/admin/report.html'
 
+# View do usuário administrador onde ele poderá definir cotas de uso
+#----------------------------------
+class AdminQuotaView(View):
+	def get(self, request, pk):
+		quota = models.Quota.objects.all()
+		if len(quota) == 0:
+			return render(request, 'ctrl_p/admin/quota.html')
+		return render(request, 'ctrl_p/admin/quota.html', {'erro': "A cota para esse mês já foi definida. Quando for necessário definir cotas novamente, você receberá um aviso no seu e-mail."})
+
+	def post(self, request, pk):
+		users = UUIDUser.objects.all()
+		if 'cota' in request.POST: 
+			if int(request.POST.get('cota')) <= 0:
+				return render(request, 'ctrl_p/admin/quota.html', {'mensagem': 'O valor da cota não pode ser negativo, ou igual a zero!'})
+			definir_cota.apply_async([int(request.POST.get('cota'))])
+			return render(request, 'ctrl_p/admin/quota_success.html')
+		elif 'ilimitada' in request.POST:
+			definir_cota.apply_async([int(request.POST.get('ilimitada'))])
+			return render(request, 'ctrl_p/admin/quota_success.html')
+		else:
+			pass
+
 # View para consulta de dados do usuário, será mostrada quando o administrador realizar
 # alguma pesquisa e selecionar um usuário dos resultados apresentados.
 #------------------------------- 
@@ -86,6 +107,7 @@ class UserDetailView(DetailView):
 	template_name = 'ctrl_p/user/details.html' # Informando a classe o template que será utilizado para renderizar os dados
 
 	def get_context_data(self, **kwargs):
+		kwargs['quota'] = models.Quota.objects.filter(user = self.object.id).first()
 		kwargs['files_print'] = models.File.objects.filter(user = self.object.id, status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos e que estão relacionados ao usuário atual
 		kwargs['files_waiting'] = models.File.objects.filter(user = self.object.id, status = 2).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem retirados e que estão relacionados ao usuário atual
 		kwargs['files_complete'] = models.File.objects.filter(user = self.object.id, status = 3).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão concluídos e que estão relacionados ao usuário atual
@@ -131,7 +153,7 @@ class ResultsView(ListView):
 		if 'q' in self.request.GET: # Verificando que a variável 'q' foi passada durante a solicitação
 			object_list = self.model.objects.filter(first_name__icontains = self.request.GET['q']) # Pegando do banco de dados os usuários que foram encontrados a partir do valor passado na requisição
 		else: # Caso não tenha sido passada durante a solicitação
-			object_list = self.model.objects.all() # Pegamos no banco de dados todos os usuários cadastrados
+			object_list = self.model.objects.all().exclude(id = self.request.user.id) # Pegamos no banco de dados todos os usuários cadastrados
 		return object_list # Retornando os dados para o template, para serem mostrados ao usuário
 
 # View que renderizará um arquivo já existente no banco e dará a opção de atualizar o status do arquivo
