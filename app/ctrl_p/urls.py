@@ -13,7 +13,7 @@ app_name = 'ctrl_p'
 urlpatterns = [
 
     # Upload File
-    path('user/<pk>/upload-file/', ctrl_p.UploadFile.as_view(template_name='ctrl_p/file/upload_file.html'), name='upload-file'),
+    path('user/<pk>/upload-file/', ctrl_p.UploadFile.as_view(), name='upload-file'),
 
     # Files Printer
     path('user/<pk>/printer', ctrl_p.PrinterView.as_view(template_name='ctrl_p/user/printer.html'), name='printer'),

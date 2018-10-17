@@ -11,7 +11,9 @@ from . import functions
 from .models import File
 from .forms import FormFile
 from app.core.models import UUIDUser
-from .tasks import add, definir_cota
+from .tasks import definir_cota, aviso_cotas
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 # View do usuário comun com os arquivos aguardando impressão 
 #-----------------------------
@@ -53,7 +55,6 @@ class AdminPrinterView(ListView):
 	template_name = 'ctrl_p/admin/printer.html' # Informando a classe o template que será utilizado para renderizar os dados
 	def get_context_data(self, **kwargs):
 		kwargs['files_print'] = models.File.objects.filter(status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos
-		add.delay()
 		return super(AdminPrinterView, self).get_context_data(**kwargs) # Retornando os dados para o template, para serem mostrados ao usuário
 
 # View do usuário administrador com os arquivos aguardando retirada
@@ -85,13 +86,17 @@ class AdminQuotaView(View):
 
 	def post(self, request, pk):
 		users = UUIDUser.objects.all()
+		agora = timezone.now()
+		depois = agora + timedelta(days = 30)
 		if 'cota' in request.POST: 
 			if int(request.POST.get('cota')) <= 0:
 				return render(request, 'ctrl_p/admin/quota.html', {'mensagem': 'O valor da cota não pode ser negativo, ou igual a zero!'})
 			definir_cota.apply_async([int(request.POST.get('cota'))])
+			aviso_cotas.apply_async(eta = depois)
 			return render(request, 'ctrl_p/admin/quota_success.html')
 		elif 'ilimitada' in request.POST:
 			definir_cota.apply_async([int(request.POST.get('ilimitada'))])
+			aviso_cotas.apply_async(eta = depois)
 			return render(request, 'ctrl_p/admin/quota_success.html')
 		else:
 			pass
@@ -174,7 +179,7 @@ class ViewPDF(View):
 		kwargs = models.File.objects.filter(id = pk)
 		with open('uploads/%s' % kwargs[0].file, 'rb') as pdf:
 			response = HttpResponse(pdf.read(), content_type='application/pdf')
-			response['Content-Disposition'] = 'inline; filename="some_file.pdf"'
+			response['Content-Disposition'] = 'inline; filename="%s.pdf"' % kwargs[0].name
 			pdf.close
 			return response
 

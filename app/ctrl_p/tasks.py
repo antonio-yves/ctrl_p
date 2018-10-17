@@ -8,11 +8,6 @@ from django.core import mail
 from django.dispatch import receiver
 
 @shared_task
-def add():
-	print ("eita task da porra")
-	return True
-
-@shared_task
 def definir_cota(cota):
 	connection = mail.get_connection()
 	connection.open()
@@ -41,4 +36,18 @@ def definir_cota(cota):
 	email.send()
 	connection.close()
 	return False
+
+@shared_task
+def aviso_cotas():
+	connection = mail.get_connection()
+	connection.open()
+	email = mail.EmailMessage(
+	'Defina a cota mensal',
+	'A cota do mês expirou, acesse o sistema e defina uma nova cota!',
+	'carlosabc436@gmail.com',
+	['yvissousa@gmail.com'],
+	connection=connection,
+	)
+	email.send()
+	connection.close()
 
