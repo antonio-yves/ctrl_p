@@ -52,6 +52,9 @@ urlpatterns = [
     path('file/<pk>/update/', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
 
     # View File
-    path('documents/<pk>/view', ctrl_p.ViewPDF.as_view(), name='view-file')
+    path('documents/<pk>/view', ctrl_p.ViewPDF.as_view(), name='view-file'),
+
+    # View Error (Insufficient Quota)
+    path('error/', ctrl_p.Error.as_view(), name='error'),
 
 ]

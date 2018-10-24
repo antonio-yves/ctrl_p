@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -8,7 +8,7 @@ from django.views import View
 from django.http import HttpResponse
 from . import models
 from . import functions
-from .models import File
+from .models import File, Quota
 from .forms import FormFile
 from app.core.models import UUIDUser
 from .tasks import definir_cota, aviso_cotas
@@ -127,7 +127,23 @@ class UploadFile(CreateView):
 	model = File # Criando Model da classe com base no model File
 	template_name = 'ctrl_p/file/upload_file.html' # Informando a classe o template que será utilizado para renderizar os dados
 	success_url = reverse_lazy('ctrl_p:success') # Tela que o usuário será enviado se sua requisição for concluída com êxito
-	fields = ['user', 'name', 'copy', 'file'] # Formulário que será utilizado no template para realizar o upload do arquivo
+	form_class = FormFile # Formulário que será utilizado no template para realizar o upload do arquivo
+
+	def form_valid(self, form):
+		obj = form.save(commit=False)
+		cota = Quota.objects.filter(user = obj.user).first()
+		if cota.quota == (-1):
+			pass
+		elif cota.quota > 0:
+			if cota.quota >= obj.copy:
+				cota.quota -= obj.copy
+				cota.save()
+			else:
+				return redirect('ctrl_p:error')
+		else:
+			return redirect('ctrl_p:error')
+		obj.save()
+		return super(UploadFile, self).form_valid(form)
 
 # View da mensagem sucesso, será mostrada quando o usuário comun realizar o upload de um arquivo para impressão
 #-------------------------------
@@ -187,3 +203,6 @@ class ViewPDF(View):
 #--------------------------
 class GenerateReport(View):
 	pass
+
+class Error(TemplateView):
+	template_name = 'ctrl_p/file/error.html'
