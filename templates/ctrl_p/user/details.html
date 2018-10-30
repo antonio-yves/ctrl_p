@@ -1,6 +1,21 @@
 {% extends '../../core/base.html' %}
 {% load staticfiles %}
 {% block content %}
+
+  <script type="text/javascript">
+    function desabilitar(valor) {
+    var status = document.getElementById('cota').disabled;
+
+    if (valor == '-1' && !status) {
+      document.getElementById('cota').disabled = true;
+    } else {
+      document.getElementById('cota').disabled = false;
+      }
+    }
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -27,7 +42,7 @@
                   <div class="media-body">
                     <h2 class="media-heading">{{object.first_name}} {{object.last_name}}</h2>
                     <h4>Matrícula: {{ object.registration }}</h4>
-                    <h4>Cota: {{quota.quota}}</h4>
+                    <h4>Cota: {% if quota == None %}Não definida{% elif quota.quota == -1 %}Ilimitada{% elif quota.quota == 1 %}{{ quota.quota }} página{% else %}{{quota.quota}} páginas{% endif %}</h4><button type="button" class="btn btn-default" data-toggle="modal" data-target="#editarModal">Editar Cota do Usuário <i class="fa fa-pencil" aria-hidden="true"></i></button>
                   </div>
                 </div>
             </div>
@@ -141,7 +156,42 @@
             <!-- /.box-body -->
             <!-- /.box-footer-->
             <!-- /.box -->
-        
+
+        <!-- Modal Editar Cota -->
+        <div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Editar Cota do Usuário</h3>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" method="post" action="{% url 'ctrl_p:edit-quota-user' object.pk %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="cota" class="col-sm-2 control-label">Nova Cota</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" placeholder="Informe o valor da nova cota" name="cota" id="cota">
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" onclick="desabilitar('-1')" name="ilimitada" value="-1"> Definir cota ilimitada
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Salvar Cota</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
         </section>
         <!-- /.content -->
 {% endblock %}

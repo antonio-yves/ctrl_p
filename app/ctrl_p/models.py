@@ -9,7 +9,8 @@ class File(CreateUpdateModel):
     (3,'Concluído')
   )
   user = models.ForeignKey(UUIDUser, on_delete = models.CASCADE, related_name = 'users', verbose_name = 'Usuário')
-  name = models.CharField(max_length = 20, verbose_name = 'Nome')
+  name = models.CharField(max_length = 100, verbose_name = 'Nome')
+  pages = models.IntegerField(verbose_name = 'Quantidade de Páginas do Documento')
   copy = models.IntegerField(verbose_name = 'Número de Cópias')
   file = models.FileField(upload_to = 'documents/', verbose_name = 'Arquivo')
   status = models.IntegerField(choices = STATUS, verbose_name = 'Status de Impressão', default = 1)
@@ -24,7 +25,7 @@ class File(CreateUpdateModel):
 
 class Quota(CreateUpdateModel):
   user = models.ForeignKey(UUIDUser, on_delete = models.CASCADE, related_name = 'user', verbose_name = 'Usuário')
-  quota = models.IntegerField(verbose_name = 'Cota')
+  quota = models.IntegerField(verbose_name = 'Cota', default = 100)
   create = models.DateTimeField(auto_now_add = True)
 
   def __str__(self):

@@ -6,13 +6,12 @@ from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponse
-from . import models
 from . import functions
 from .models import File, Quota
 from .forms import FormFile
 from app.core.models import UUIDUser
 from .tasks import definir_cota, aviso_cotas
-from datetime import datetime, timedelta
+from datetime import timedelta, datetime
 from django.utils import timezone
 
 # View do usuário comun com os arquivos aguardando impressão 
@@ -22,7 +21,7 @@ class PrinterView(DetailView):
 	template_name = 'ctrl_p/user/printer.html'
 
 	def get_context_data(self, **kwargs):
-		kwargs['files_print'] = models.File.objects.filter(user = self.object.id, status = 1).order_by('-uploaded')
+		kwargs['files_print'] = File.objects.filter(user = self.object.id, status = 1).order_by('-uploaded')
 		return super(PrinterView, self).get_context_data(**kwargs)
 
 # View do usuário comun com os arquivos aguardando retirada
@@ -32,7 +31,7 @@ class WaitingView(DetailView):
 	template_name = 'ctrl_p/user/waiting.html'
 
 	def get_context_data(self, **kwargs):
-		kwargs['files_waiting'] = models.File.objects.filter(user = self.object.id, status = 2).order_by('-uploaded')
+		kwargs['files_waiting'] = File.objects.filter(user = self.object.id, status = 2).order_by('-uploaded')
 		return super(WaitingView, self).get_context_data(**kwargs)
 
 # View do usuário comun com os arquivos concluídos
@@ -42,7 +41,7 @@ class CompleteView(DetailView):
 	template_name = 'ctrl_p/user/complete.html'
 
 	def get_context_data(self, **kwargs):
-		kwargs['files_complete'] = models.File.objects.filter(user = self.object.id, status = 3).order_by('-uploaded')
+		kwargs['files_complete'] = File.objects.filter(user = self.object.id, status = 3).order_by('-uploaded')
 		return super(CompleteView, self).get_context_data(**kwargs)
 
 # View do usuário administrador com os arquivos aguardando impressão
@@ -54,7 +53,7 @@ class AdminPrinterView(ListView):
 	model = File # Criando Model da classe com base no model File
 	template_name = 'ctrl_p/admin/printer.html' # Informando a classe o template que será utilizado para renderizar os dados
 	def get_context_data(self, **kwargs):
-		kwargs['files_print'] = models.File.objects.filter(status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos
+		kwargs['files_print'] = File.objects.filter(status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos
 		return super(AdminPrinterView, self).get_context_data(**kwargs) # Retornando os dados para o template, para serem mostrados ao usuário
 
 # View do usuário administrador com os arquivos aguardando retirada
@@ -67,7 +66,7 @@ class AdminWaitingView(ListView):
 	template_name = 'ctrl_p/admin/waiting.html' # Informando a classe o template que será utilizado para renderizar os dados
 
 	def get_context_data(self, **kwargs):
-		kwargs['files_waiting'] = models.File.objects.filter(status = 2).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos
+		kwargs['files_waiting'] = File.objects.filter(status = 2).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos
 		return super(AdminWaitingView, self).get_context_data(**kwargs) # Retornando os dados para o template, para serem mostrados ao usuário
 
 # View do usuário administrador onde ele poderá gerar relatórios de uso
@@ -79,7 +78,7 @@ class AdminReportView(TemplateView):
 #----------------------------------
 class AdminQuotaView(View):
 	def get(self, request, pk):
-		quota = models.Quota.objects.all()
+		quota = Quota.objects.all()
 		if len(quota) == 0:
 			return render(request, 'ctrl_p/admin/quota.html')
 		return render(request, 'ctrl_p/admin/quota.html', {'erro': "A cota para esse mês já foi definida. Quando for necessário definir cotas novamente, você receberá um aviso no seu e-mail."})
@@ -112,10 +111,10 @@ class UserDetailView(DetailView):
 	template_name = 'ctrl_p/user/details.html' # Informando a classe o template que será utilizado para renderizar os dados
 
 	def get_context_data(self, **kwargs):
-		kwargs['quota'] = models.Quota.objects.filter(user = self.object.id).first()
-		kwargs['files_print'] = models.File.objects.filter(user = self.object.id, status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos e que estão relacionados ao usuário atual
-		kwargs['files_waiting'] = models.File.objects.filter(user = self.object.id, status = 2).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem retirados e que estão relacionados ao usuário atual
-		kwargs['files_complete'] = models.File.objects.filter(user = self.object.id, status = 3).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão concluídos e que estão relacionados ao usuário atual
+		kwargs['quota'] = Quota.objects.filter(user = self.object.id).first()
+		kwargs['files_print'] = File.objects.filter(user = self.object.id, status = 1).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem impressos e que estão relacionados ao usuário atual
+		kwargs['files_waiting'] = File.objects.filter(user = self.object.id, status = 2).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão aguardando para serem retirados e que estão relacionados ao usuário atual
+		kwargs['files_complete'] = File.objects.filter(user = self.object.id, status = 3).order_by('-uploaded') # Pegando do banco de dados os arquivos que estão concluídos e que estão relacionados ao usuário atual
 		return super(UserDetailView, self).get_context_data(**kwargs) # Retornando os dados para o template, para serem mostrados ao usuário
 
 # View responsável pelo carregamento do arquivo para impressão
@@ -130,19 +129,6 @@ class UploadFile(CreateView):
 	form_class = FormFile # Formulário que será utilizado no template para realizar o upload do arquivo
 
 	def form_valid(self, form):
-		obj = form.save(commit=False)
-		cota = Quota.objects.filter(user = obj.user).first()
-		if cota.quota == (-1):
-			pass
-		elif cota.quota > 0:
-			if cota.quota >= obj.copy:
-				cota.quota -= obj.copy
-				cota.save()
-			else:
-				return redirect('ctrl_p:error')
-		else:
-			return redirect('ctrl_p:error')
-		obj.save()
 		return super(UploadFile, self).form_valid(form)
 
 # View da mensagem sucesso, será mostrada quando o usuário comun realizar o upload de um arquivo para impressão
@@ -186,13 +172,13 @@ class UpdateFileView(UpdateView):
 	model = File # Criando Model da classe com base no model File
 	template_name = 'ctrl_p/file/file-update.html' # Informando a classe o template que será utilizado para renderizar os dados
 	success_url = reverse_lazy('ctrl_p:success-update') # Tela que o usuário será enviado se sua requisição for concluída com êxito
-	fields = ['user', 'name', 'copy', 'file', 'status'] # Formulário que será utilizado no template para realizar o upload do arquivo
+	fields = ['user', 'name', 'file', 'status'] # Formulário que será utilizado no template para realizar o upload do arquivo
 
 # View que renderiza o arquivo PDF na tela do navegador, para os usuários poderem visualizar o arquivo no próprio navegador
 #-------------------
 class ViewPDF(View):
 	def get(self, request, pk):
-		kwargs = models.File.objects.filter(id = pk)
+		kwargs = File.objects.filter(id = pk)
 		with open('uploads/%s' % kwargs[0].file, 'rb') as pdf:
 			response = HttpResponse(pdf.read(), content_type='application/pdf')
 			response['Content-Disposition'] = 'inline; filename="%s.pdf"' % kwargs[0].name
@@ -202,7 +188,32 @@ class ViewPDF(View):
 # View responsável por gerar os relatórios do usuário Administrador
 #--------------------------
 class GenerateReport(View):
-	pass
+	def get(self, request):
+		min_date = datetime.strptime(request.GET.get('min_date'), "%Y-%m-%d").date()
+		max_date = datetime.strptime(request.GET.get('max_date'), "%Y-%m-%d").date()
+		files = File.objects.filter(uploaded__gte=min_date, uploaded__lte=max_date)
+		pages = 0
+		for file in files:
+			pages += (file.copy * file.pages)
+		pdf = functions.render_pdf('ctrl_p/report/generate.html', {'files': files, 'min_date':min_date, 'max_date': max_date, 'pages': pages})
+		return HttpResponse(pdf, content_type='application/pdf')
+
 
 class Error(TemplateView):
 	template_name = 'ctrl_p/file/error.html'
+
+class EditQuotaUser(View):
+	def post(self, request, pk):
+		usuario = UUIDUser.objects.filter(id = pk).first()
+		cota = Quota.objects.filter(user = usuario).first()
+		if cota == None:
+			if 'cota' in request.POST:
+				cota = Quota(user = usuario, quota=request.POST.get('cota'))
+			else:
+				cota = Quota(user=usuario, quota=request.POST.get('ilimitada'))
+		if 'cota' in request.POST:
+			cota.quota = request.POST.get('cota')
+		else:
+			cota.quota = request.POST.get('ilimitada')
+		cota.save()
+		return redirect('ctrl_p:user-details', pk = pk)

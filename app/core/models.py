@@ -41,6 +41,9 @@ class UUIDUser(AbstractUser):
     picture = models.ImageField(null=False, blank=True, verbose_name='picture', upload_to='accounts/%Y/%m/%d')
     picture_thumb = ImageSpecField(source='picture', processors=[ResizeToFill(200, 200)], format='JPEG', options={'quality': 60})
 
+    # sector
+    sector = models.CharField(max_length=255, blank=True, null=True, verbose_name='setor')
+
     def __str__(self):
         return self.first_name
 

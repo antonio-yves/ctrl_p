@@ -11,34 +11,46 @@ connection = mail.get_connection()
 connection.open()
 
 def file_create_post_save(sender, instance, created, **kwargs):
+	user_adm = UUIDUser.objects.filter(is_staff=True).first()
 	if created:
-		user_adm = UUIDUser.objects.filter(is_staff = True)
 		email_user = mail.EmailMessage(
-			'Arquivo enviado com sucesso',
-			'Seu arquivo foi recebido com sucesso',
+			'Arquivo Enviado com Sucesso - Status Atual "Aguradando Impressão"',
+			'Caro, %s.\n\nInformamos que o arquivo "%s" foi recebido com sucesso, logo ele será impresso e você poderá pegar o arquivo pronto na mecanografia.\n\nAtenciosamente,\n%s\n\n**O envio desse e-mail é automático**' % (instance.user.first_name, instance.name, user_adm.first_name),
 			'carlosabc436@gmail.com',
 			[instance.user.email],
 			connection=connection,
 			)
 		email_user.send()
 		email_adm = mail.EmailMessage(
-			'Novo arquivo aguradando impressão',
-			'Um usuário enviou um novo arquivo',
+			'Novo Arquivo Aguradando Impressão',
+			'O usuário %s enviou um novo arquivo para impressão.\n\nDetalhes da Solicitação:\nNome do Arquivo: %s\nQuantidade de Páginas: %i\nQuantidade de Cópias: %i\n\n**O envio desse e-mail é automático**' % (instance.user.first_name, instance.name, instance.pages, instance.copy),
 			'carlosabc436@gmail.com',
-			[user_adm[0].email],
+			[user_adm.email],
 			connection = connection,
 			)
 		email_adm.send()
 		connection.close()
 	else:
-		email = mail.EmailMessage(
-			'Status do arquivo alterado',
-			'O status do seu arquivo foi alterado',
-			'carlosabc436@gmail.com',
-			[instance.user.email],
-			connection=connection,
+		if instance.status == 2:
+			email = mail.EmailMessage(
+				'O Status do Seu Arquivo Foi Alterado - Status Atual "Aguardando Retirada"',
+				'Caro, %s.\nO status do arquivo "%s" foi alterado para "Aguardando Retirada", diriga-se a mecanografia e retire seu arquivo impresso.\n\nAtenciosamente,\n%s\n\n**O envio desse e-mail é automático**' % (instance.user.first_name, instance.name, user_adm.first_name),
+				'carlosabc436@gmail.com',
+				[instance.user.email],
+				connection=connection,
+				)
+			email.send()
+			connection.close()
+		else:
+			email = mail.EmailMessage(
+				'O Status do Seu Arquivo Foi Alterado - Status Atual "Concluído"',
+				'Caro, %s.\nO status do arquivo "%s" foi alterado para "Concluído".\n\nAtenciosamente,\n%s\n\n**O envio desse e-mail é automático**' % (
+				instance.user.first_name, instance.name, user_adm.first_name),
+				'carlosabc436@gmail.com',
+				[instance.user.email],
+				connection=connection,
 			)
-		email.send()
-		connection.close()
+			email.send()
+			connection.close()
 
 post_save.connect(file_create_post_save, sender=File)

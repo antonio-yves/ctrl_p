@@ -15,10 +15,11 @@ class FormFile(forms.ModelForm):
 
     class Meta:
         model = File
-        fields = ['user', 'name', 'copy', 'file']
+        fields = ['user', 'name', 'pages', 'copy', 'file']
         labels = {
             'user': 'Usuário',
             'name': 'Nome do Arquivo',
+            'pages': 'Quantidade de Páginas do Documento',
             'copy': 'Número de Cópias',
         }
         widgets = {

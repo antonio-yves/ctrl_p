@@ -51,10 +51,16 @@ urlpatterns = [
     # File Update
     path('file/<pk>/update/', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
 
-    # View File
+    # Open File
     path('documents/<pk>/view', ctrl_p.ViewPDF.as_view(), name='view-file'),
 
-    # View Error (Insufficient Quota)
+    # Error (Insufficient Quota)
     path('error/', ctrl_p.Error.as_view(), name='error'),
+
+    # Edit User Quota
+    path('editar/<pk>/cota', ctrl_p.EditQuotaUser.as_view(), name = 'edit-quota-user'),
+
+    # Generate Report
+    path('gerar/relatorio', ctrl_p.GenerateReport.as_view(), name='generate-report'),
 
 ]
