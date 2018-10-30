@@ -71,8 +71,13 @@ class AdminWaitingView(ListView):
 
 # View do usuário administrador onde ele poderá gerar relatórios de uso
 #-----------------------------------
-class AdminReportView(TemplateView):
+class AdminReportView(ListView):
+	model = Report
 	template_name = 'ctrl_p/admin/report.html'
+
+	def get_context_data(self, **kwargs):
+		kwargs['reports'] = Report.objects.all().order_by('-create')
+		return super(AdminReportView, self).get_context_data(**kwargs)
 
 # View do usuário administrador onde ele poderá definir cotas de uso
 #----------------------------------
@@ -192,15 +197,22 @@ class GenerateReport(View):
 		min_date = datetime.strptime(request.GET.get('min_date'), "%Y-%m-%d").date()
 		max_date = datetime.strptime(request.GET.get('max_date'), "%Y-%m-%d").date()
 		files = File.objects.filter(uploaded__gte=min_date, uploaded__lte=max_date).order_by('name')
+		if len(files) == 0:
+			return redirect('ctrl_p:report-error')
 		pages = 0
 		for file in files:
 			pages += (file.copy * file.pages)
+		report = Report(name='Relatório do Período: {} - {}'.format(min_date, max_date), min_date=min_date, max_date=max_date, pages=pages)
+		report.save()
 		date = timezone.now()
-		pdf = functions.render_pdf('ctrl_p/report/generate.html', {'files': files, 'min_date':min_date, 'max_date': max_date, 'pages': pages, 'emitido': date})
+		pdf = functions.render_pdf('ctrl_p/report/generate.html', {'files': files, 'min_date': min_date, 'max_date': max_date, 'pages': pages, 'emitido': date})
 		return HttpResponse(pdf, content_type='application/pdf')
 
-class Error(TemplateView):
+class ErrorFile(TemplateView):
 	template_name = 'ctrl_p/file/error.html'
+
+class ErrorReport(TemplateView):
+	template_name = 'ctrl_p/report/error.html'
 
 class EditQuotaUser(View):
 	def post(self, request, pk):
@@ -217,3 +229,16 @@ class EditQuotaUser(View):
 			cota.quota = request.POST.get('ilimitada')
 		cota.save()
 		return redirect('ctrl_p:user-details', pk = pk)
+
+class ViewReport(View):
+	def get(self, request, pk):
+		report = Report.objects.filter(id = pk).first()
+		files = File.objects.filter(uploaded__gte=report.min_date, uploaded__lte=report.max_date).order_by('name')
+		pdf = functions.render_pdf('ctrl_p/report/generate.html', {'files': files, 'min_date': report.min_date, 'max_date': report.max_date, 'pages': report.pages, 'emitido': report.create})
+		return HttpResponse(pdf, content_type='application/pdf')
+
+class DeleteReport(View):
+	def get(self, request, pk):
+		report = Report.objects.filter(id = pk).first()
+		report.delete()
+		return redirect('ctrl_p:admin-report', pk = self.request.user.pk)

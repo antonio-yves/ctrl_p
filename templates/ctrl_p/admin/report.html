@@ -42,14 +42,37 @@
                 <div class="box box-default">
                     <div>
                         <h4 style="text-align: center;">Relatórios Gerados</h4>
+                        <hr>
                     </div>
-                    <div style="text-align: center;">
-                        {% if reports != None %}
-
-                        {% else %}
-                        <h3 style="margin-top: 5%;">Nenhum relatório gerado</h3>
-                        {% endif %}
-                    </div>
+                    {% if reports|length != 0 %}
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Período</th>
+                          <th scope="col">Data e Hora da Geração</th>
+                          <th scope="col">Opções</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for report in reports %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ report.name }}</td>
+                          <td>{{ report.min_date }} - {{ report.max_date }}</td>
+                          <td>{{ report.create }}</td>
+                          <td>
+                              <a href="{% url 'ctrl_p:report-view' report.pk %}" title="Visualizar" style="color: black;" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                              <a href="{% url 'ctrl_p:report-delete' report.pk %}" title="Excluír" style="margin-left: 10px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                    {% else %}
+                        <h3 style="margin-top: 5%; margin-bottom: 5%; text-align: center;">Nenhum relatório gerado</h3>
+                    {% endif %}
                 </div>
 
             </div>

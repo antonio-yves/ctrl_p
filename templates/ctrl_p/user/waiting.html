@@ -37,7 +37,7 @@
               {% for file in files_waiting %}
               <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{% url 'ctrl_p:view-file' file.pk %}" target="_blank">{{ file.name }}</a></td>
+                <td><a href="{% url 'ctrl_p:view-file' file.pk %}" target="_blank" class="link">{{ file.name }}</a></td>
                 <td>{{ file.uploaded|date:"d/m/Y" }} às {{ file.uploaded|time }}</td>
                 <td><span class="label label-warning">Aguardando Retirada</span></td>
               </tr>

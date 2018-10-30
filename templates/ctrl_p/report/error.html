@@ -9,8 +9,8 @@
     </h1>
     <ol class="breadcrumb">
       <li><i class="fa fa-print"></i> Solicitação de Impressão</li>
-      <li>Definir Cota</li>
-      <li class="active">Sucesso</li>
+      <li>Gerar Relatório</li>
+      <li class="active">Erro</li>
     </ol>
   </section>
 
@@ -20,12 +20,12 @@
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Sucesso</h3>
+        <h3 class="box-title">Erro</h3>
 
       </div>
       <div class="box-body">
-        <div class="callout callout-success">
-        <p>A cota mensal está sendo definida, logo você receberá um e-mail informando que o processo foi finalizado! <a href="{% url 'ctrl_p:admin-printer' request.user.id %}">Clique aqui para voltar para a página inicial.</a></p>
+        <div class="callout callout-danger">
+        <p>Não foi possível gerar o relatório para o período selecionado, pois não há dados suficentes para sua geraçaõ! <a href="{% url 'ctrl_p:admin-report' request.user.id %}">Clique aqui para voltar para a página de relatórios.</a></p>
       </div>
       </div>
       <!-- /.box-body -->

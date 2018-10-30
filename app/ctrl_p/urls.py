@@ -55,12 +55,21 @@ urlpatterns = [
     path('documents/<pk>/view', ctrl_p.ViewPDF.as_view(), name='view-file'),
 
     # Error (Insufficient Quota)
-    path('error/', ctrl_p.Error.as_view(), name='error'),
+    path('error/', ctrl_p.ErrorFile.as_view(), name='error'),
 
     # Edit User Quota
     path('editar/<pk>/cota', ctrl_p.EditQuotaUser.as_view(), name = 'edit-quota-user'),
 
     # Generate Report
     path('gerar/relatorio', ctrl_p.GenerateReport.as_view(), name='generate-report'),
+
+    # Error Report
+    path('gerar/relatorio/erro', ctrl_p.ErrorReport.as_view(), name='report-error'),
+
+    # View Report
+    path('relatorio/<pk>/visualizar', ctrl_p.ViewReport.as_view(), name='report-view'),
+
+    # Delete Report
+    path('relatorio/<pk>/excluir', ctrl_p.DeleteReport.as_view(), name='report-delete'),
 
 ]

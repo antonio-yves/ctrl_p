@@ -26,6 +26,7 @@ class File(CreateUpdateModel):
 class Quota(CreateUpdateModel):
   user = models.ForeignKey(UUIDUser, on_delete = models.CASCADE, related_name = 'user', verbose_name = 'Usuário')
   quota = models.IntegerField(verbose_name = 'Cota', default = 100)
+  used = models.IntegerField(verbose_name='Cota Usada', default=0)
   create = models.DateTimeField(auto_now_add = True)
 
   def __str__(self):
@@ -37,7 +38,9 @@ class Quota(CreateUpdateModel):
 
 class Report(CreateUpdateModel):
   name = models.CharField(max_length = 25, verbose_name = 'Nome')
-  file = models.FileField(upload_to = 'reports/', verbose_name = 'Arquivo')
+  min_date = models.DateField(verbose_name='Data Inicial')
+  max_date = models.DateField(verbose_name='Data Final')
+  pages = models.IntegerField(verbose_name='Páginas Impressas')
   create = models.DateTimeField(auto_now_add = True)
 
   def __str__(self):
