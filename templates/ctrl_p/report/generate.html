@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">{% load static %}
 <head>
-    <title>Title</title>
+    <title>Relatório do Período: {{ min_date }} - {{ max_date }}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <script type="text/javascript">
-    var months = {0: "Janeiro", 1: "Fevereiro", 2: "Março", 3: "Abril", 4: "Maio", 5: "Junho", 6: "Julho", 7:"Agosto", 8:"Setembro", 9:"Outubro", 10: "Novembro", 11: "Dezembro"};
-    now = new Date
-    month = now.getMonth()
-  </script>
 </head>
-<body>
+<body style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Coat_of_arms_of_Brazil.svg/2000px-Coat_of_arms_of_Brazil.svg.png); background-repeat: no-repeat;">
 <div style="text-align: center; margin-top: 2%;">
-    <img src="{% static 'dist/img/ifpb.png' %}" height="85">
-    <h4 style="margin-top: 1%;"><b>Sistema de Solicitação de Impressão - Relatório de Impressões</b></h4>
-    <h5 style="margin-top: 1%;">Emitido em <script language=javascript type="text/javascript">document.write (now.getDate() + " de " + months[month] + " de " + now.getFullYear())</script></h5>
+    <img src="http://www.ifpb.edu.br/imagens/logotipos/ifpb-1" height="85">
+</div>
+<div style="text-align: center">
+    <p>Sistema de Solicitação de Impressão - Relatório de Impressões</p>
+    <p style="margin-top: 1%;">Emitido em {{ emitido }}</p>
 </div>
 <hr>
 <div style="float: left;">Quantidade de Páginas Impressas: {{ pages }}</div>
-<div style="float: right;">Período: {{ min_date }} - {{ max_date|date }}</div>
-<div style="margin-top: 5%;">
-<div style="margin-top: 1%; text-align: center; margin-bottom: 1%;">
+<div style="float: right;">Período: {{ min_date }} - {{ max_date }}</div>
+<div style="margin-top: 10%;">
+<div style="text-align: center; margin-bottom: 1%;">
     <h4><b>Arquivos Impressos no Período Selecionado</b></h4>
     <hr>
 </div>
@@ -45,6 +42,10 @@
   {% endfor %}
   </tbody>
 </table>
+</div>
+<div style="text-align: right;">
+    <p><i>Cajazeiras, PB</i></p>
+    <p><i>{{ emitido|date }}</i></p>
 </div>
 </body>
 </html>

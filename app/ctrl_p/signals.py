@@ -15,7 +15,7 @@ def file_create_post_save(sender, instance, created, **kwargs):
 	if created:
 		email_user = mail.EmailMessage(
 			'Arquivo Enviado com Sucesso - Status Atual "Aguradando Impressão"',
-			'Caro, %s.\n\nInformamos que o arquivo "%s" foi recebido com sucesso, logo ele será impresso e você poderá pegar o arquivo pronto na mecanografia.\n\nAtenciosamente,\n%s\n\n**O envio desse e-mail é automático**' % (instance.user.first_name, instance.name, user_adm.first_name),
+			'Caro, %s.\n\nInformamos que o arquivo "%s" foi recebido com sucesso, logo ele será impresso e você poderá pegar o arquivo pronto na mecanografia.\n\nAtenciosamente,\n%s\n\n\n\nEssa mensagem é automática, ok? Não é pra responder esse e-mail.' % (instance.user.first_name, instance.name, user_adm.first_name),
 			'carlosabc436@gmail.com',
 			[instance.user.email],
 			connection=connection,
@@ -23,7 +23,7 @@ def file_create_post_save(sender, instance, created, **kwargs):
 		email_user.send()
 		email_adm = mail.EmailMessage(
 			'Novo Arquivo Aguradando Impressão',
-			'O usuário %s enviou um novo arquivo para impressão.\n\nDetalhes da Solicitação:\nNome do Arquivo: %s\nQuantidade de Páginas: %i\nQuantidade de Cópias: %i\n\n**O envio desse e-mail é automático**' % (instance.user.first_name, instance.name, instance.pages, instance.copy),
+			'O usuário %s enviou um novo arquivo para impressão.\n\nDetalhes da Solicitação:\nNome do Arquivo: %s\nQuantidade de Páginas: %i\nQuantidade de Cópias: %i\n\n\n\nEssa mensagem é automática, ok? Não é pra responder esse e-mail.' % (instance.user.first_name, instance.name, instance.pages, instance.copy),
 			'carlosabc436@gmail.com',
 			[user_adm.email],
 			connection = connection,
@@ -34,7 +34,7 @@ def file_create_post_save(sender, instance, created, **kwargs):
 		if instance.status == 2:
 			email = mail.EmailMessage(
 				'O Status do Seu Arquivo Foi Alterado - Status Atual "Aguardando Retirada"',
-				'Caro, %s.\nO status do arquivo "%s" foi alterado para "Aguardando Retirada", diriga-se a mecanografia e retire seu arquivo impresso.\n\nAtenciosamente,\n%s\n\n**O envio desse e-mail é automático**' % (instance.user.first_name, instance.name, user_adm.first_name),
+				'Caro, %s.\nO status do arquivo "%s" foi alterado para "Aguardando Retirada", diriga-se a mecanografia e retire seu arquivo impresso.\n\nAtenciosamente,\n%s\n\n\n\nEssa mensagem é automática, ok? Não é pra responder esse e-mail.' % (instance.user.first_name, instance.name, user_adm.first_name),
 				'carlosabc436@gmail.com',
 				[instance.user.email],
 				connection=connection,
@@ -44,7 +44,7 @@ def file_create_post_save(sender, instance, created, **kwargs):
 		else:
 			email = mail.EmailMessage(
 				'O Status do Seu Arquivo Foi Alterado - Status Atual "Concluído"',
-				'Caro, %s.\nO status do arquivo "%s" foi alterado para "Concluído".\n\nAtenciosamente,\n%s\n\n**O envio desse e-mail é automático**' % (
+				'Caro, %s.\nO status do arquivo "%s" foi alterado para "Concluído".\n\nAtenciosamente,\n%s\n\n\n\nEssa mensagem é automática, ok? Não é pra responder esse e-mail.' % (
 				instance.user.first_name, instance.name, user_adm.first_name),
 				'carlosabc436@gmail.com',
 				[instance.user.email],

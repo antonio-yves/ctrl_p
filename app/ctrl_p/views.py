@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.http import HttpResponse
 from . import functions
-from .models import File, Quota
+from .models import File, Quota, Report
 from .forms import FormFile
 from app.core.models import UUIDUser
 from .tasks import definir_cota, aviso_cotas
@@ -191,13 +191,13 @@ class GenerateReport(View):
 	def get(self, request):
 		min_date = datetime.strptime(request.GET.get('min_date'), "%Y-%m-%d").date()
 		max_date = datetime.strptime(request.GET.get('max_date'), "%Y-%m-%d").date()
-		files = File.objects.filter(uploaded__gte=min_date, uploaded__lte=max_date)
+		files = File.objects.filter(uploaded__gte=min_date, uploaded__lte=max_date).order_by('name')
 		pages = 0
 		for file in files:
 			pages += (file.copy * file.pages)
-		pdf = functions.render_pdf('ctrl_p/report/generate.html', {'files': files, 'min_date':min_date, 'max_date': max_date, 'pages': pages})
+		date = timezone.now()
+		pdf = functions.render_pdf('ctrl_p/report/generate.html', {'files': files, 'min_date':min_date, 'max_date': max_date, 'pages': pages, 'emitido': date})
 		return HttpResponse(pdf, content_type='application/pdf')
-
 
 class Error(TemplateView):
 	template_name = 'ctrl_p/file/error.html'
