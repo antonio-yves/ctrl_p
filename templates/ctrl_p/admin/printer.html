@@ -43,7 +43,7 @@
                         <td>{{ file.uploaded|date:"d/m/Y" }} às {{ file.uploaded|time }}</td>
                         <td><a href="{% url 'ctrl_p:user-details' file.user.pk %}" class="link">{{ file.user }} {{ file.user.last_name }}</a></td>
                         <td>{{ file.copy }}</td>
-                        <td><a href="{% url 'ctrl_p:view-file' file.pk %}" class="link"><i class="fa fa-print" aria-hidden="true" style="margin-right: 10px;" title="Imprimir"></i></a>
+                        <td><a href="{% url 'ctrl_p:view-file' file.pk %}" class="link" target="_blank"><i class="fa fa-print" aria-hidden="true" style="margin-right: 10px;" title="Imprimir"></i></a>
                             <a href="{% url 'ctrl_p:file-update' file.pk %}" class="link" style="margin-left: 10px;"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Editar"></i></a>
                         </td>
                     </tr>

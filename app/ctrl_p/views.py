@@ -89,7 +89,6 @@ class AdminQuotaView(View):
 		return render(request, 'ctrl_p/admin/quota.html', {'erro': "A cota para esse mês já foi definida. Quando for necessário definir cotas novamente, você receberá um aviso no seu e-mail."})
 
 	def post(self, request, pk):
-		users = UUIDUser.objects.all()
 		agora = timezone.now()
 		depois = agora + timedelta(days = 30)
 		if 'cota' in request.POST: 
@@ -134,7 +133,14 @@ class UploadFile(CreateView):
 	form_class = FormFile # Formulário que será utilizado no template para realizar o upload do arquivo
 
 	def form_valid(self, form):
-		return super(UploadFile, self).form_valid(form)
+		obj = form.save(commit=False)
+		cota = Quota.objects.filter(user = self.request.user).first()
+		if (cota.quota - cota.used) >= (obj.pages * obj.copy):
+			obj.save()
+			cota.used += (obj.pages * obj.copy)
+			cota.save()
+			return redirect('ctrl_p:success')
+		return redirect('ctrl_p:error')
 
 # View da mensagem sucesso, será mostrada quando o usuário comun realizar o upload de um arquivo para impressão
 #-------------------------------
@@ -204,15 +210,16 @@ class GenerateReport(View):
 			pages += (file.copy * file.pages)
 		report = Report(name='Relatório do Período: {} - {}'.format(min_date, max_date), min_date=min_date, max_date=max_date, pages=pages)
 		report.save()
-		date = timezone.now()
-		pdf = functions.render_pdf('ctrl_p/report/generate.html', {'files': files, 'min_date': min_date, 'max_date': max_date, 'pages': pages, 'emitido': date})
-		return HttpResponse(pdf, content_type='application/pdf')
+		return redirect('ctrl_p:report-success')
 
 class ErrorFile(TemplateView):
 	template_name = 'ctrl_p/file/error.html'
 
 class ErrorReport(TemplateView):
 	template_name = 'ctrl_p/report/error.html'
+
+class SuccessReport(TemplateView):
+	template_name = 'ctrl_p/report/success.html'
 
 class EditQuotaUser(View):
 	def post(self, request, pk):

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">{% load static %}
+<html lang="pt-br">
 <head>
     <title>Relatório do Período: {{ min_date }} - {{ max_date }}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -16,8 +16,9 @@
 <div style="float: left;">Quantidade de Páginas Impressas: {{ pages }}</div>
 <div style="float: right;">Período: {{ min_date }} - {{ max_date }}</div>
 <div style="margin-top: 10%;">
+<hr>
 <div style="text-align: center; margin-bottom: 1%;">
-    <h4><b>Arquivos Impressos no Período Selecionado</b></h4>
+    <p><b>Arquivos Impressos no Período Selecionado</b></p>
     <hr>
 </div>
 <table class="table">
@@ -43,6 +44,7 @@
   </tbody>
 </table>
 </div>
+<hr>
 <div style="text-align: right;">
     <p><i>Cajazeiras, PB</i></p>
     <p><i>{{ emitido|date }}</i></p>

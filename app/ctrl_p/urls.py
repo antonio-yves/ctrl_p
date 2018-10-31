@@ -13,52 +13,52 @@ app_name = 'ctrl_p'
 urlpatterns = [
 
     # Upload File
-    path('user/<pk>/upload-file/', ctrl_p.UploadFile.as_view(), name='upload-file'),
+    path('usuario/<pk>/upload/arquivo/', ctrl_p.UploadFile.as_view(), name='upload-file'),
 
     # Files Printer
-    path('user/<pk>/printer', ctrl_p.PrinterView.as_view(template_name='ctrl_p/user/printer.html'), name='printer'),
+    path('usuario/<pk>/printer', ctrl_p.PrinterView.as_view(template_name='ctrl_p/user/printer.html'), name='printer'),
 
     # Files Waiting
-    path('user/<pk>/waiting', ctrl_p.WaitingView.as_view(template_name='ctrl_p/user/waiting.html'), name='waiting'),
+    path('usuario/<pk>/waiting', ctrl_p.WaitingView.as_view(template_name='ctrl_p/user/waiting.html'), name='waiting'),
 
     # Files Complete
-    path('user/<pk>/complete', ctrl_p.CompleteView.as_view(template_name='ctrl_p/user/complete.html'), name='complete'),
+    path('usuario/<pk>/complete', ctrl_p.CompleteView.as_view(template_name='ctrl_p/user/complete.html'), name='complete'),
 
     # Files Printer Admin
-    path('admin/<pk>/printer', ctrl_p.AdminPrinterView.as_view(template_name='ctrl_p/admin/printer.html'), name='admin-printer'),
+    path('administrador/<pk>/printer', ctrl_p.AdminPrinterView.as_view(template_name='ctrl_p/admin/printer.html'), name='admin-printer'),
 
     # Files Waiting Admin
-    path('admin/<pk>/waiting', ctrl_p.AdminWaitingView.as_view(template_name='ctrl_p/admin/waiting.html'), name='admin-waiting'),
+    path('administrador/<pk>/waiting', ctrl_p.AdminWaitingView.as_view(template_name='ctrl_p/admin/waiting.html'), name='admin-waiting'),
 
     # Report Admin
-    path('admin/<pk>/report', ctrl_p.AdminReportView.as_view(template_name='ctrl_p/admin/report.html'), name='admin-report'),
+    path('administrador/<pk>/report', ctrl_p.AdminReportView.as_view(template_name='ctrl_p/admin/report.html'), name='admin-report'),
 
     # Quota Admin
-    path('admin/<pk>/quota', ctrl_p.AdminQuotaView.as_view(), name='admin-quota'),
+    path('administrador/<pk>/quota', ctrl_p.AdminQuotaView.as_view(), name='admin-quota'),
 
     # Success
-    path('success/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/file/success.html'), name='success'),
+    path('arquivo/upload/sucesso/', ctrl_p.SuccessView.as_view(template_name='ctrl_p/file/success.html'), name='success'),
 
     # Success Update
-    path('success-update/', ctrl_p.SuccessUpdateView.as_view(template_name='ctrl_p/admin/success.html'), name='success-update'),
+    path('administrador/atualizar/arquivo/sucesso', ctrl_p.SuccessUpdateView.as_view(template_name='ctrl_p/admin/success.html'), name='success-update'),
 
     # Search Results
-    path('user/search/', ctrl_p.ResultsView.as_view(template_name='ctrl_p/admin/results.html'), name='results'),
+    path('usuario/search/', ctrl_p.ResultsView.as_view(template_name='ctrl_p/admin/results.html'), name='results'),
 
     # User Details
-    path('user/<pk>/details', ctrl_p.UserDetailView.as_view(template_name='ctrl_p/user/details.html'), name='user-details'),
+    path('usuario/<pk>/detalhes', ctrl_p.UserDetailView.as_view(template_name='ctrl_p/user/details.html'), name='user-details'),
 
     # File Update
-    path('file/<pk>/update/', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
+    path('arquivo/<pk>/atualizar/', ctrl_p.UpdateFileView.as_view(template_name='ctrl_p/file/file-update.html'), name='file-update'),
 
     # Open File
-    path('documents/<pk>/view', ctrl_p.ViewPDF.as_view(), name='view-file'),
+    path('arquivo/<pk>/imprimir', ctrl_p.ViewPDF.as_view(), name='view-file'),
 
     # Error (Insufficient Quota)
-    path('error/', ctrl_p.ErrorFile.as_view(), name='error'),
+    path('administrador/cota/erro/', ctrl_p.ErrorFile.as_view(), name='error'),
 
     # Edit User Quota
-    path('editar/<pk>/cota', ctrl_p.EditQuotaUser.as_view(), name = 'edit-quota-user'),
+    path('usuario/<pk>/editar/cota', ctrl_p.EditQuotaUser.as_view(), name = 'edit-quota-user'),
 
     # Generate Report
     path('gerar/relatorio', ctrl_p.GenerateReport.as_view(), name='generate-report'),
@@ -71,5 +71,8 @@ urlpatterns = [
 
     # Delete Report
     path('relatorio/<pk>/excluir', ctrl_p.DeleteReport.as_view(), name='report-delete'),
+
+    # Success Report
+    path('gerar/relatorio/sucesso', ctrl_p.SuccessReport.as_view(), name='report-success'),
 
 ]
