@@ -4,7 +4,7 @@ Projeto de requerimento de impressão desenvolvido pela Garag3m.
 
 ## Apps
 
-O projeto é composto pela aplicação *core* e *ctrl_p* que são compostas basicamente pelas classes *CreateUpdateModel*, *UUIDUser* e *File*.   
+O projeto é composto pela aplicação *core* e *ctrl_p* que são compostas basicamente pelas classes *CreateUpdateModel*, *UUIDUser*, *Quota*, *Report* e *File*.   
 
 ### CreateUpdateModel
 
@@ -53,9 +53,42 @@ Você pode ver no arquivo settings.py a definição da classe UUIDUser como clas
 ```python
 AUTH_USER_MODEL = 'core.UUIDUser'
 ```
+### Quota
+Classe composta basicamente pelos atributos: usuário (user), cota (quota), used (usado) e create (criado).
+```python
+class Quota(CreateUpdateModel):
+  user = models.ForeignKey(UUIDUser, on_delete = models.CASCADE, related_name = 'user', verbose_name = 'Usuário')
+  quota = models.IntegerField(verbose_name = 'Cota', default = 100)
+  used = models.IntegerField(verbose_name='Cota Usada', default=0)
+  create = models.DateTimeField(auto_now_add = True)
+
+  def __str__(self):
+    return 'Cota do Usuário: %s' % (self.user.first_name)
+
+  class Meta:
+    verbose_name = 'Cota'
+    verbose_name_plural = 'Cotas'
+```
+### Report
+Classe composta basicamente pelos atributos: name (nome), min_date(data inicial), max_date (data final), pages (nº de páginas impressas) e create (criado).
+```python
+class Report(CreateUpdateModel):
+  name = models.CharField(max_length = 25, verbose_name = 'Nome')
+  min_date = models.DateField(verbose_name='Data Inicial')
+  max_date = models.DateField(verbose_name='Data Final')
+  pages = models.IntegerField(verbose_name='Páginas Impressas')
+  create = models.DateTimeField(auto_now_add = True)
+
+  def __str__(self):
+    return self.name
+
+  class Meta:
+    verbose_name = 'Relatório'
+    verbose_name_plural = 'Relatórios'
+```
 
 ### File
-Classe composta basicamente pelos atributos de usuário (user), nome do arquivo (name), quantidade de cópiad (copy), o arquivo para ser impresso (file) e a data de upload (uploaded).
+Classe composta basicamente pelos atributos: usuário (user), nome do arquivo (name), quantidade de cópiad (copy), o arquivo para ser impresso (file) e a data de upload (uploaded).
  ```python
 class File(CreateUpdateModel):
     user = models.ForeignKey(UUIDUser, on_delete=models.CASCADE, related_name='users', verbose_name='Usuário')
