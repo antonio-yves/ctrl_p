@@ -135,12 +135,18 @@ class UploadFile(CreateView):
 	def form_valid(self, form):
 		obj = form.save(commit=False)
 		cota = Quota.objects.filter(user = self.request.user).first()
-		if (cota.quota - cota.used) >= (obj.pages * obj.copy):
+		if cota.quota == -1:
 			obj.save()
 			cota.used += (obj.pages * obj.copy)
 			cota.save()
 			return redirect('ctrl_p:success')
-		return redirect('ctrl_p:error')
+		else:
+			if (cota.quota - cota.used) >= (obj.pages * obj.copy):
+				obj.save()
+				cota.used += (obj.pages * obj.copy)
+				cota.save()
+				return redirect('ctrl_p:success')
+			return redirect('ctrl_p:error')
 
 # View da mensagem sucesso, será mostrada quando o usuário comun realizar o upload de um arquivo para impressão
 #-------------------------------
