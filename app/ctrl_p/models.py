@@ -41,6 +41,7 @@ class Report(CreateUpdateModel):
   min_date = models.DateField(verbose_name='Data Inicial')
   max_date = models.DateField(verbose_name='Data Final')
   pages = models.IntegerField(verbose_name='Páginas Impressas')
+  file = models.FileField(upload_to = 'reports/', verbose_name = 'Relatório')
   create = models.DateTimeField(auto_now_add = True)
 
   def __str__(self):
