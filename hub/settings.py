@@ -36,7 +36,7 @@ DEFAULT_FROM_EMAIL = 'Hub Grêmio<hubgremio@gmail.com>'
 ACCOUNT_ACTIVATION_DAYS = 3
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'hubgremio@gmail.com'
-EMAIL_HOST_PASSWORD = "i}|Gf4YxnPK#U^YNpbRw"
+EMAIL_HOST_PASSWORD = ""
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
