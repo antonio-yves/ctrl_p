@@ -2,6 +2,10 @@
 
 Projeto de requerimento de impressão desenvolvido pela Garag3m.
 
+# Template Base
+
+O Template utilizado no desenvolvimento foi o AdminLTE <https://github.com/ColorlibHQ/AdminLTE>
+
 ## Apps
 
 O projeto é composto pela aplicação *core* e *ctrl_p* que são compostas basicamente pelas classes *CreateUpdateModel*, *UUIDUser*, *Quota*, *Report* e *File*.   
