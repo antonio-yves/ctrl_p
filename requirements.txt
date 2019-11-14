@@ -8,7 +8,7 @@ django-widget-tweaks==1.4.2
 html5lib==1.0.1
 kombu==4.2.1
 pilkit==2.0
-Pillow==5.2.0
+Pillow>=5.2.0
 PyPDF2==1.26.0
 pytz==2018.5
 reportlab==3.5.6
